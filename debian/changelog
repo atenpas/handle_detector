@@ -1,0 +1,9 @@
+ros-hydro-handle-detector (1.0.0-2precise) precise; urgency=high
+
+  * moved from bitbucket to github
+  * Initial commit
+  * Contributors: atenpas
+
+ -- Andreas ten Pas <atp@ccs.neu.edu>  Sun, 09 Mar 2014 05:00:00 -0000
+
+
