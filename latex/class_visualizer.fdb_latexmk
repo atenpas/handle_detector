@@ -1,0 +1,13 @@
+# Fdb version 3
+["latex"] 1393880081 "class_visualizer.tex" "class_visualizer.dvi" "class_visualizer" 
+  "class_visualizer.aux" 1393880075 8 a94a2480d3289e625eea47cd1b285758 ""
+  "class_visualizer.tex" 1393880081 5093 a59cb565e2404ddb54d8501cafa52510 ""
+  (generated)
+  "class_visualizer.log"
+  "class_visualizer.dvi"
+["pdflatex"] 1393880084 "class_visualizer.tex" "class_visualizer.pdf" "class_visualizer" 
+  "class_visualizer.aux" 1393880075 8 a94a2480d3289e625eea47cd1b285758 ""
+  "class_visualizer.tex" 1393880084 5093 a59cb565e2404ddb54d8501cafa52510 ""
+  (generated)
+  "class_visualizer.log"
+  "class_visualizer.pdf"

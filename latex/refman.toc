@@ -1,0 +1,42 @@
+\contentsline {chapter}{\numberline {1}\discretionary {-}{}{}Class \discretionary {-}{}{}Index}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}\discretionary {-}{}{}Class \discretionary {-}{}{}List}{1}{section.1.1}
+\contentsline {chapter}{\numberline {2}\discretionary {-}{}{}Class \discretionary {-}{}{}Documentation}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}\discretionary {-}{}{}Affordances \discretionary {-}{}{}Class \discretionary {-}{}{}Reference}{3}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}\discretionary {-}{}{}Detailed \discretionary {-}{}{}Description}{4}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}\discretionary {-}{}{}Member \discretionary {-}{}{}Function \discretionary {-}{}{}Documentation}{4}{subsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.2.1}init\discretionary {-}{}{}Params}{4}{subsubsection.2.1.2.1}
+\contentsline {subsubsection}{\numberline {2.1.2.2}max\discretionary {-}{}{}Range\discretionary {-}{}{}Filter}{4}{subsubsection.2.1.2.2}
+\contentsline {subsubsection}{\numberline {2.1.2.3}search\discretionary {-}{}{}Affordances}{4}{subsubsection.2.1.2.3}
+\contentsline {subsubsection}{\numberline {2.1.2.4}search\discretionary {-}{}{}Handles}{4}{subsubsection.2.1.2.4}
+\contentsline {subsubsection}{\numberline {2.1.2.5}workspace\discretionary {-}{}{}Filter}{5}{subsubsection.2.1.2.5}
+\contentsline {section}{\numberline {2.2}pcl\discretionary {-}{}{}:\discretionary {-}{}{}:\discretionary {-}{}{}Curvature\discretionary {-}{}{}Estimation\discretionary {-}{}{}Taubin$<$ \discretionary {-}{}{}Point\discretionary {-}{}{}In\discretionary {-}{}{}T, \discretionary {-}{}{}Point\discretionary {-}{}{}Out\discretionary {-}{}{}T $>$ \discretionary {-}{}{}Class \discretionary {-}{}{}Template \discretionary {-}{}{}Reference}{5}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}\discretionary {-}{}{}Detailed \discretionary {-}{}{}Description}{6}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}\discretionary {-}{}{}Constructor \& \discretionary {-}{}{}Destructor \discretionary {-}{}{}Documentation}{7}{subsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.2.1}\discretionary {-}{}{}Curvature\discretionary {-}{}{}Estimation\discretionary {-}{}{}Taubin}{7}{subsubsection.2.2.2.1}
+\contentsline {subsection}{\numberline {2.2.3}\discretionary {-}{}{}Member \discretionary {-}{}{}Function \discretionary {-}{}{}Documentation}{7}{subsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.3.1}compute\discretionary {-}{}{}Feature}{7}{subsubsection.2.2.3.1}
+\contentsline {subsubsection}{\numberline {2.2.3.2}estimate\discretionary {-}{}{}Median\discretionary {-}{}{}Curvature}{7}{subsubsection.2.2.3.2}
+\contentsline {subsubsection}{\numberline {2.2.3.3}fit\discretionary {-}{}{}Quadric}{8}{subsubsection.2.2.3.3}
+\contentsline {subsubsection}{\numberline {2.2.3.4}is\discretionary {-}{}{}Second\discretionary {-}{}{}Element\discretionary {-}{}{}Smaller}{8}{subsubsection.2.2.3.4}
+\contentsline {subsubsection}{\numberline {2.2.3.5}set\discretionary {-}{}{}Num\discretionary {-}{}{}Samples}{8}{subsubsection.2.2.3.5}
+\contentsline {subsubsection}{\numberline {2.2.3.6}set\discretionary {-}{}{}Num\discretionary {-}{}{}Threads}{9}{subsubsection.2.2.3.6}
+\contentsline {section}{\numberline {2.3}\discretionary {-}{}{}Cylindrical\discretionary {-}{}{}Shell \discretionary {-}{}{}Class \discretionary {-}{}{}Reference}{9}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}\discretionary {-}{}{}Detailed \discretionary {-}{}{}Description}{10}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}\discretionary {-}{}{}Member \discretionary {-}{}{}Function \discretionary {-}{}{}Documentation}{10}{subsection.2.3.2}
+\contentsline {subsubsection}{\numberline {2.3.2.1}fit\discretionary {-}{}{}Cylinder}{10}{subsubsection.2.3.2.1}
+\contentsline {subsubsection}{\numberline {2.3.2.2}has\discretionary {-}{}{}Clearance}{11}{subsubsection.2.3.2.2}
+\contentsline {subsubsection}{\numberline {2.3.2.3}set\discretionary {-}{}{}Extent}{11}{subsubsection.2.3.2.3}
+\contentsline {subsubsection}{\numberline {2.3.2.4}set\discretionary {-}{}{}Neighborhood\discretionary {-}{}{}Centroid\discretionary {-}{}{}Index}{11}{subsubsection.2.3.2.4}
+\contentsline {section}{\numberline {2.4}\discretionary {-}{}{}Messages \discretionary {-}{}{}Class \discretionary {-}{}{}Reference}{11}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}\discretionary {-}{}{}Detailed \discretionary {-}{}{}Description}{12}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}\discretionary {-}{}{}Member \discretionary {-}{}{}Function \discretionary {-}{}{}Documentation}{12}{subsection.2.4.2}
+\contentsline {subsubsection}{\numberline {2.4.2.1}create\discretionary {-}{}{}Cylinder}{12}{subsubsection.2.4.2.1}
+\contentsline {subsubsection}{\numberline {2.4.2.2}create\discretionary {-}{}{}Cylinder\discretionary {-}{}{}Array}{12}{subsubsection.2.4.2.2}
+\contentsline {subsubsection}{\numberline {2.4.2.3}create\discretionary {-}{}{}Handle\discretionary {-}{}{}List}{12}{subsubsection.2.4.2.3}
+\contentsline {section}{\numberline {2.5}\discretionary {-}{}{}Visualizer \discretionary {-}{}{}Class \discretionary {-}{}{}Reference}{13}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}\discretionary {-}{}{}Detailed \discretionary {-}{}{}Description}{13}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}\discretionary {-}{}{}Constructor \& \discretionary {-}{}{}Destructor \discretionary {-}{}{}Documentation}{13}{subsection.2.5.2}
+\contentsline {subsubsection}{\numberline {2.5.2.1}\discretionary {-}{}{}Visualizer}{13}{subsubsection.2.5.2.1}
+\contentsline {subsection}{\numberline {2.5.3}\discretionary {-}{}{}Member \discretionary {-}{}{}Function \discretionary {-}{}{}Documentation}{14}{subsection.2.5.3}
+\contentsline {subsubsection}{\numberline {2.5.3.1}create\discretionary {-}{}{}Cylinders}{14}{subsubsection.2.5.3.1}
+\contentsline {subsubsection}{\numberline {2.5.3.2}create\discretionary {-}{}{}Handles}{14}{subsubsection.2.5.3.2}

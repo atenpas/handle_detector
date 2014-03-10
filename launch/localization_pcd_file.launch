@@ -1,0 +1,34 @@
+<launch>
+	<node name="localization" pkg="handle_detector" type="localization" output="screen">
+		<!-- affordance search parameters -->
+    <param name="file" value="/home/andreas/baxter_ws/src/handle_detector/data/stagedcleaning8.pcd" />
+		<param name="target_radius" value="0.013" />
+		<param name="target_radius_error" value="0.013" />
+		<param name="affordance_gap" value="0.008" />
+		<param name="sample_size" value="5000" />		
+		<param name="use_clearance_filter" value="true" />
+		<param name="use_occlusion_filter" value="true" />
+    <param name="curvature_estimator" value="0" />
+		<param name="point_cloud_source" value="0" />
+		<param name="update_interval" value="3.0" />
+		
+		<!-- RANSAC parameters -->
+		<param name="ransac_runs" value="5" />
+		<param name="ransac_min_inliers" value="10" />
+		<param name="ransac_dist_radius" value="0.02" />
+		<param name="ransac_orient_radius" value="0.1" />
+		<param name="ransac_radius_radius" value="0.003" />
+				
+		<!-- workspace limits -->
+		<param name="max_range" value="1.2" />
+		<param name="workspace_min_x" value="-1.0" />
+		<param name="workspace_max_x" value="1.0" />
+		<param name="workspace_min_y" value="-1.0" />
+		<param name="workspace_max_y" value="1.0" />
+		<param name="workspace_min_z" value="-1.0" />
+		<param name="workspace_max_z" value="1.0" />
+		
+		<!-- number of threads to use -->
+		<param name="num_threads" value="8" />
+	</node>
+</launch>
