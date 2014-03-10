@@ -1,0 +1,12 @@
+Source: ros-hydro-handle-detector
+Section: misc
+Priority: extra
+Maintainer: Andreas ten Pas <atp@ccs.neu.edu>
+Build-Depends: debhelper (>= 7.0.50~), ros-hydro-catkin, ros-hydro-eigen-conversions, ros-hydro-geometry-msgs, ros-hydro-message-generation, ros-hydro-pcl-conversions, ros-hydro-pcl-ros, ros-hydro-roscpp, ros-hydro-std-msgs, ros-hydro-tf, ros-hydro-tf-conversions
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-hydro-handle-detector
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-hydro-eigen-conversions, ros-hydro-geometry-msgs, ros-hydro-message-runtime, ros-hydro-pcl-conversions, ros-hydro-pcl-ros, ros-hydro-roscpp, ros-hydro-std-msgs, ros-hydro-tf, ros-hydro-tf-conversions
+Description: ROS package to detect handles.
