@@ -1,0 +1,129 @@
+\hypertarget{class_affordances}{\section{\-Affordances \-Class \-Reference}
+\label{class_affordances}\index{\-Affordances@{\-Affordances}}
+}
+
+
+\hyperlink{class_affordances}{\-Affordances} localizes grasp affordances and handles in a point cloud. \-It also provides helper methods to filter out points from the point cloud that are outside of the robot's workspace.  
+
+
+
+
+{\ttfamily \#include $<$affordances.\-h$>$}
+
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_affordances_a9fb12a782a3912ed4254f3c4e972f278}{init\-Params} (ros\-::\-Node\-Handle node)
+\begin{DoxyCompactList}\small\item\em \-Read the parameters from a \-R\-O\-S launch file. \end{DoxyCompactList}\item 
+\-Point\-Cloud\-::\-Ptr \hyperlink{class_affordances_ae0304055c3c4a8755c0a002d7ee6e798}{max\-Range\-Filter} (const \-Point\-Cloud\-::\-Ptr \&cloud\-\_\-in)
+\begin{DoxyCompactList}\small\item\em \-Filter out all points from a given cloud that are outside of a sphere with a radius max\-\_\-range and center at the origin of the point cloud, and return the filtered cloud. \end{DoxyCompactList}\item 
+\-Point\-Cloud\-::\-Ptr \hyperlink{class_affordances_a20975b9d91e56469cbf6dfb410c89039}{workspace\-Filter} (const \-Point\-Cloud\-::\-Ptr \&cloud\-\_\-in)
+\begin{DoxyCompactList}\small\item\em \-Filter out all points from a given cloud that are outside of a cube defined by the workspace limits of the robot, and return the filtered cloud. \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{class_cylindrical_shell}{\-Cylindrical\-Shell} $>$ \hyperlink{class_affordances_a86a74ef0cc9e4e627aeec9757599dc11}{search\-Affordances} (const \-Point\-Cloud\-::\-Ptr \&cloud)
+\begin{DoxyCompactList}\small\item\em \-Search grasp affordances (cylindrical shells) in a given point cloud. \end{DoxyCompactList}\item 
+std\-::vector$<$ std\-::vector\*
+$<$ \hyperlink{class_cylindrical_shell}{\-Cylindrical\-Shell} $>$ $>$ \hyperlink{class_affordances_a815e4d41e482279579a515ea09d18e56}{search\-Handles} (const \-Point\-Cloud\-::\-Ptr \&cloud, std\-::vector$<$ \hyperlink{class_cylindrical_shell}{\-Cylindrical\-Shell} $>$ shells)
+\begin{DoxyCompactList}\small\item\em \-Search handles in a set of cylindrical shells. \-If occlusion filtering is turned on (using the corresponding parameter in the \-R\-O\-S launch file), the handles found are filtered on possible occlusions. \end{DoxyCompactList}\item 
+\hypertarget{class_affordances_afcf209198fd79fa0d0d55629bc728746}{std\-::string \hyperlink{class_affordances_afcf209198fd79fa0d0d55629bc728746}{get\-P\-C\-D\-File} ()}\label{class_affordances_afcf209198fd79fa0d0d55629bc728746}
+
+\begin{DoxyCompactList}\small\item\em \-Return the $\ast$.pcd file given by the corresponding parameter in the \-R\-O\-S launch file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\hyperlink{class_affordances}{\-Affordances} localizes grasp affordances and handles in a point cloud. \-It also provides helper methods to filter out points from the point cloud that are outside of the robot's workspace. 
+
+\begin{DoxyAuthor}{\-Author}
+\-Andreas ten \-Pas 
+\end{DoxyAuthor}
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_affordances_a9fb12a782a3912ed4254f3c4e972f278}{\index{\-Affordances@{\-Affordances}!init\-Params@{init\-Params}}
+\index{init\-Params@{init\-Params}!Affordances@{\-Affordances}}
+\subsubsection[{init\-Params}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf \-Affordances\-::init\-Params} (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle}]{node}
+\end{DoxyParamCaption}
+)}}\label{class_affordances_a9fb12a782a3912ed4254f3c4e972f278}
+
+
+\-Read the parameters from a \-R\-O\-S launch file. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em node} & the \-R\-O\-S node with which the parameters are associated \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_affordances_ae0304055c3c4a8755c0a002d7ee6e798}{\index{\-Affordances@{\-Affordances}!max\-Range\-Filter@{max\-Range\-Filter}}
+\index{max\-Range\-Filter@{max\-Range\-Filter}!Affordances@{\-Affordances}}
+\subsubsection[{max\-Range\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}\-Point\-Cloud\-::\-Ptr {\bf \-Affordances\-::max\-Range\-Filter} (
+\begin{DoxyParamCaption}
+\item[{const \-Point\-Cloud\-::\-Ptr \&}]{cloud\-\_\-in}
+\end{DoxyParamCaption}
+)}}\label{class_affordances_ae0304055c3c4a8755c0a002d7ee6e798}
+
+
+\-Filter out all points from a given cloud that are outside of a sphere with a radius max\-\_\-range and center at the origin of the point cloud, and return the filtered cloud. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em cloud\-\_\-in} & the point cloud to be filtered \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_affordances_a86a74ef0cc9e4e627aeec9757599dc11}{\index{\-Affordances@{\-Affordances}!search\-Affordances@{search\-Affordances}}
+\index{search\-Affordances@{search\-Affordances}!Affordances@{\-Affordances}}
+\subsubsection[{search\-Affordances}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf \-Cylindrical\-Shell} $>$ {\bf \-Affordances\-::search\-Affordances} (
+\begin{DoxyParamCaption}
+\item[{const \-Point\-Cloud\-::\-Ptr \&}]{cloud}
+\end{DoxyParamCaption}
+)}}\label{class_affordances_a86a74ef0cc9e4e627aeec9757599dc11}
+
+
+\-Search grasp affordances (cylindrical shells) in a given point cloud. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em cloud} & the point cloud in which affordances are searched for \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_affordances_a815e4d41e482279579a515ea09d18e56}{\index{\-Affordances@{\-Affordances}!search\-Handles@{search\-Handles}}
+\index{search\-Handles@{search\-Handles}!Affordances@{\-Affordances}}
+\subsubsection[{search\-Handles}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ std\-::vector$<$ {\bf \-Cylindrical\-Shell} $>$ $>$ {\bf \-Affordances\-::search\-Handles} (
+\begin{DoxyParamCaption}
+\item[{const \-Point\-Cloud\-::\-Ptr \&}]{cloud, }
+\item[{std\-::vector$<$ {\bf \-Cylindrical\-Shell} $>$}]{shells}
+\end{DoxyParamCaption}
+)}}\label{class_affordances_a815e4d41e482279579a515ea09d18e56}
+
+
+\-Search handles in a set of cylindrical shells. \-If occlusion filtering is turned on (using the corresponding parameter in the \-R\-O\-S launch file), the handles found are filtered on possible occlusions. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em cloud} & the point cloud in which the handles lie (only required for occlusion filtering) \\
+\hline
+{\em shells} & the set of cylindrical shells to be searched for handles \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_affordances_a20975b9d91e56469cbf6dfb410c89039}{\index{\-Affordances@{\-Affordances}!workspace\-Filter@{workspace\-Filter}}
+\index{workspace\-Filter@{workspace\-Filter}!Affordances@{\-Affordances}}
+\subsubsection[{workspace\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}\-Point\-Cloud\-::\-Ptr {\bf \-Affordances\-::workspace\-Filter} (
+\begin{DoxyParamCaption}
+\item[{const \-Point\-Cloud\-::\-Ptr \&}]{cloud\-\_\-in}
+\end{DoxyParamCaption}
+)}}\label{class_affordances_a20975b9d91e56469cbf6dfb410c89039}
+
+
+\-Filter out all points from a given cloud that are outside of a cube defined by the workspace limits of the robot, and return the filtered cloud. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em cloud\-\_\-in} & the point cloud to be filtered \\
+\hline
+\end{DoxyParams}
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+src/affordances.\-h\item 
+src/affordances.\-cpp\end{DoxyCompactItemize}
