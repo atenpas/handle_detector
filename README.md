@@ -1,3 +1,22 @@
+## https://github.com/atenpas/handle_detector.git (hydro) - 1.0.0-0
+
+User `andreas@andreas-Dell-System-XPS-L502X` released the packages in the `https://github.com/atenpas/handle_detector.git` repository into the `hydro` distro by running `/usr/bin/bloom-release --rosdistro hydro --track hydro https://github.com/atenpas/handle_detector.git --edit` on `Mon, 10 Mar 2014 03:17:11 -0000`
+
+The `handle_detector` package was released.
+
+Version of package(s) in repository `https://github.com/atenpas/handle_detector.git`:
+- rosdistro version: `null`
+- old version: `null`
+- new version: `1.0.0-0`
+
+Versions of tools used:
+- bloom version: `0.5.1`
+- catkin_pkg version: `0.1.26`
+- rosdep version: `0.10.25`
+- rosdistro version: `0.3.4`
+- vcstools version: `0.1.33`
+
+
 # Handle Detector
 
 **Author:** Andreas ten Pas (atp@ccs.neu.edu)
