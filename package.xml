@@ -2,7 +2,7 @@
 
 <package>
   <name>handle_detector</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <description>ROS package to detect handles.</description>
 
   <maintainer email="atp@ccs.neu.edu">Andreas ten Pas</maintainer>
