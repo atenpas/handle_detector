@@ -21,7 +21,7 @@ find_package(Eigen REQUIRED)
 include_directories(${Eigen_INCLUDE_DIRS})
 
 ## compiler optimization flags
-set(CMAKE_CXX_FLAGS "-march=corei7-avx -DNDEBUG -O3 -fopenmp")
+set(CMAKE_CXX_FLAGS "-DNDEBUG -O3 -fopenmp")
 
 ## add messages
 add_message_files(
@@ -35,9 +35,9 @@ add_message_files(
 generate_messages(DEPENDENCIES geometry_msgs)
 
 ## Declare a catkin package
-catkin_package(CATKIN_DEPENDS message_runtime)
+catkin_package(CATKIN_DEPENDS geometry_msgs message_runtime std_msgs)
 
-include_directories(include ${catkin_INCLUDE_DIRS})
+include_directories(${catkin_INCLUDE_DIRS})
 
 ## create executables
 add_executable(localization src/localization.cpp)
