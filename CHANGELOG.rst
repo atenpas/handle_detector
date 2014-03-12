@@ -2,8 +2,8 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.2 (2014-03-12)
+------------------
 * 1.0.1
 * updated CHANGELOG
 * fixed catkin warnings (using catkin_lint)
