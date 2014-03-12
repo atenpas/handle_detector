@@ -13,6 +13,9 @@ find_package(catkin REQUIRED COMPONENTS
 	tf
 	tf_conversions)
 
+## find Lapack
+find_package(LAPACK REQUIRED)
+
 ## find Eigen package
 find_package(Eigen REQUIRED)
 include_directories(${Eigen_INCLUDE_DIRS})
