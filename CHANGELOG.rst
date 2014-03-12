@@ -2,8 +2,8 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.1 (2014-03-12)
+------------------
 * adjusted manifest and CMakeList
 * removed lapack rosdep rule to package.xml
 * Updating README.md
