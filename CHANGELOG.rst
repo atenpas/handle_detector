@@ -4,6 +4,23 @@ Changelog for package handle_detector
 
 Forthcoming
 -----------
+* adjusted manifest and CMakeList
+* removed lapack rosdep rule to package.xml
+* Updating README.md
+* Updating release inc to: 2
+* Modified tracks.yaml
+* Modified tracks.yaml
+* Updating README.md
+* Updating release inc to: 1
+* Modified tracks.yaml
+* Modified tracks.yaml
+* Updating README.md
+* Updating release inc to: 0
+* Modified tracks.yaml
+* Modified tracks.yaml
+* Initial tracks.yaml
+* Contributors: Andreas
+
 * added lapack rosdep rule to package.xml
 * Updating README.md
 * Updating release inc to: 2
