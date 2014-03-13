@@ -2,6 +2,11 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* added visualization_msgs to manifest and CMakeLists
+* Contributors: Andreas
+
 1.0.2 (2014-03-12)
 ------------------
 * 1.0.1
