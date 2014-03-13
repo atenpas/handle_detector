@@ -11,7 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_conversions
   std_msgs 
 	tf
-	tf_conversions)
+	tf_conversions
+  visualization_msgs)
 
 ## find Lapack
 find_package(LAPACK REQUIRED)
@@ -35,7 +36,7 @@ add_message_files(
 generate_messages(DEPENDENCIES geometry_msgs)
 
 ## Declare a catkin package
-catkin_package(CATKIN_DEPENDS geometry_msgs message_runtime std_msgs)
+catkin_package(CATKIN_DEPENDS geometry_msgs message_runtime std_msgs visualization_msgs)
 
 include_directories(${catkin_INCLUDE_DIRS})
 
