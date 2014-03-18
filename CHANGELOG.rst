@@ -2,6 +2,11 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* updated CMakeLists.txt and package.xml
+* Contributors: atenpas
+
 1.0.4 (2014-03-13)
 ------------------
 * added visualization_msgs to manifest and CMakeLists
