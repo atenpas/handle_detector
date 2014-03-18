@@ -36,7 +36,23 @@ add_message_files(
 generate_messages(DEPENDENCIES geometry_msgs)
 
 ## Declare a catkin package
-catkin_package(CATKIN_DEPENDS geometry_msgs message_runtime std_msgs visualization_msgs)
+catkin_package(
+  LIBRARIES 
+    ${PROJECT_NAME}
+  CATKIN_DEPENDS 
+    eigen_conversions 
+    geometry_msgs 
+    message_generation 
+    roscpp 
+    pcl_ros
+    pcl_conversions
+    std_msgs 
+    tf
+    tf_conversions
+    visualization_msgs
+ DEPENDS 
+  Eigen
+  LAPACK)
 
 include_directories(${catkin_INCLUDE_DIRS})
 
@@ -62,3 +78,14 @@ target_link_libraries(affordances_lib lapack)
 
 ## link libraries to messages library
 target_link_libraries(messages_lib ${catkin_LIBRARIES})
+
+## install targets
+install(TARGETS localization
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+## install launch files
+install(DIRECTORY launch/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
