@@ -2,8 +2,8 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.5 (2014-03-18)
+------------------
 * updated CMakeLists.txt and package.xml
 * Contributors: atenpas
 
