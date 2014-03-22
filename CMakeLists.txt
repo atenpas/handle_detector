@@ -65,6 +65,9 @@ add_library(visualizer_lib src/visualizer.cpp)
 add_library(messages_lib src/messages.cpp)
 add_library(cylindrical_shell_lib src/cylindrical_shell.cpp)
 
+## add dependencies
+add_dependencies(messages_lib ${PROJECT_NAME}_gencpp)
+
 ## link libraries to localization executable
 target_link_libraries(localization ${catkin_LIBRARIES})
 target_link_libraries(localization affordances_lib)
