@@ -8,6 +8,25 @@ const int NORMALS = 2;
 
 const std::string CURVATURE_ESTIMATORS[] = {"Taubin", "PCA", "Normals"};
 
+const int Affordances::CURVATURE_ESTIMATOR = 0;
+const int Affordances::NUM_SAMPLES = 5000;
+const int Affordances::NUM_NEAREST_NEIGHBORS = 500;
+const double Affordances::NEIGHBOR_RADIUS = 0.025;
+const int Affordances::MAX_NUM_IN_FRONT = 20;
+const double Affordances::TARGET_RADIUS = 0.08;
+const double Affordances::RADIUS_ERROR = 0.013;
+const double Affordances::HANDLE_GAP = 0.08;
+const double Affordances::MAX_RANGE = 1.0;
+const bool Affordances::USE_CLEARANCE_FILTER = true;
+const bool Affordances::USE_OCCLUSION_FILTER = true;
+const int Affordances::RANSAC_RUNS = 3;
+const int Affordances::RANSAC_MIN_INLIERS = 10;
+const double Affordances::RANSAC_DIST_RADIUS = 0.02;
+const double Affordances::RANSAC_ORIENT_RADIUS = 0.1;
+const double Affordances::RANSAC_RADIUS_RADIUS = 0.003;
+const double Affordances::WORKSPACE_MIN = -1.0;
+const double Affordances::WORKSPACE_MAX = 1.0;
+
 void 
 Affordances::initParams(ros::NodeHandle node)
 {	

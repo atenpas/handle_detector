@@ -202,24 +202,24 @@ class Affordances
     std::string file;
 		
 		// standard parameters
-		static const int CURVATURE_ESTIMATOR = 0; // curvature axis estimation method
-		static const int NUM_SAMPLES = 5000; // number of neighborhoods
-		static const int NUM_NEAREST_NEIGHBORS = 500; // number of nearest neighbors to be found
-		static const double NEIGHBOR_RADIUS = 0.025;
-		static const int MAX_NUM_IN_FRONT = 20; // max. threshold of allowed points in front of a neighborhood center point (occlusion filtering)		
-		static const double TARGET_RADIUS = 0.08; // approx. radius of the target handle
-		static const double RADIUS_ERROR = 0.013; // allowed deviation from target radius
-		static const double HANDLE_GAP = 0.08; // min. gap around affordances
-		static const double MAX_RANGE = 1.0; // max. range of robot arms
-		static const bool USE_CLEARANCE_FILTER = true; // whether the clearance filter is used
-		static const bool USE_OCCLUSION_FILTER = true; // whether the occlusion filter is used
-		static const int RANSAC_RUNS = 3; // number of RANSAC runs
-		static const int RANSAC_MIN_INLIERS = 10; // min. number of inliers for colinear cylinder set
-		static const double RANSAC_DIST_RADIUS = 0.02; // distance threshold
-		static const double RANSAC_ORIENT_RADIUS = 0.1; // orientation threshold
-		static const double RANSAC_RADIUS_RADIUS = 0.003; // radius threshold
-		static const double WORKSPACE_MIN = -1.0;
-		static const double WORKSPACE_MAX = 1.0;
+		static const int CURVATURE_ESTIMATOR; // curvature axis estimation method
+		static const int NUM_SAMPLES; // number of neighborhoods
+		static const int NUM_NEAREST_NEIGHBORS; // number of nearest neighbors to be found
+		static const double NEIGHBOR_RADIUS;
+		static const int MAX_NUM_IN_FRONT; // max. threshold of allowed points in front of a neighborhood center point (occlusion filtering)
+		static const double TARGET_RADIUS; // approx. radius of the target handle
+		static const double RADIUS_ERROR; // allowed deviation from target radius
+		static const double HANDLE_GAP; // min. gap around affordances
+		static const double MAX_RANGE; // max. range of robot arms
+		static const bool USE_CLEARANCE_FILTER; // whether the clearance filter is used
+		static const bool USE_OCCLUSION_FILTER; // whether the occlusion filter is used
+		static const int RANSAC_RUNS; // number of RANSAC runs
+		static const int RANSAC_MIN_INLIERS; // min. number of inliers for colinear cylinder set
+		static const double RANSAC_DIST_RADIUS; // distance threshold
+		static const double RANSAC_ORIENT_RADIUS; // orientation threshold
+		static const double RANSAC_RADIUS_RADIUS; // radius threshold
+		static const double WORKSPACE_MIN;
+		static const double WORKSPACE_MAX;
 };
 
 #endif
