@@ -2,7 +2,7 @@
 
 <package>
   <name>handle_detector</name>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <description>ROS package to detect handles.</description>
   <maintainer email="atp@ccs.neu.edu">Andreas ten Pas</maintainer>
   <license>BSD</license>

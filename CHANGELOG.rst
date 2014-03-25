@@ -2,8 +2,8 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.6 (2014-03-25)
+------------------
 * Merge pull request `#1 <https://github.com/atenpas/handle_detector/issues/1>`_ from cottsay/master
   Fix Fedora build errors
 * Move default affordances values into source file
