@@ -83,7 +83,7 @@ target_link_libraries(affordances_lib lapack)
 target_link_libraries(messages_lib ${catkin_LIBRARIES})
 
 ## install targets
-install(TARGETS localization
+install(TARGETS localization affordances_lib visualizer_lib messages_lib cylindrical_shell_lib
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
