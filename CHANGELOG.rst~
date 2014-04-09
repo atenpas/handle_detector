@@ -7,7 +7,7 @@ Forthcoming
 * removed LIBRARIES from catkin_package(...) call in CMakeLists.txt
 * changed naming of libraries and executable in CMakeLists.txt so that it contains the project name
 * added libs to install targets in CMakeLists
-* Contributors: atenpas
+* Contributors: atenpas, rob platt
 
 1.0.6 (2014-03-25)
 ------------------
