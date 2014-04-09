@@ -1,7 +1,7 @@
 <launch>
-	<node name="localization" pkg="handle_detector" type="localization" output="screen">
+	<node name="localization" pkg="handle_detector" type="handle_detector_localization" output="screen">
 		<!-- affordance search parameters -->
-    <param name="file" value="/home/andreas/baxter_ws/src/handle_detector/data/stagedcleaning8.pcd" />
+    <param name="file" value="/home/rplatt/baxter_ws/src/handle_detector/data/stagedcleaning8.pcd" />
 		<param name="target_radius" value="0.013" />
 		<param name="target_radius_error" value="0.013" />
 		<param name="affordance_gap" value="0.008" />

@@ -1,5 +1,5 @@
 <launch>
-	<node name="localization" pkg="handle_detector" type="localization" output="screen">
+	<node name="localization" pkg="handle_detector" type="handle_detector_localization" output="screen">
 		<!-- affordance search parameters -->
     <param name="file" value="" />
 		<param name="target_radius" value="0.012" />

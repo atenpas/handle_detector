@@ -5,7 +5,7 @@ project(handle_detector)
 find_package(catkin REQUIRED COMPONENTS 
 	eigen_conversions 
   geometry_msgs 
-	message_generation 
+	message_generation   
   roscpp 
 	pcl_ros
   pcl_conversions
@@ -27,7 +27,6 @@ set(CMAKE_CXX_FLAGS "-DNDEBUG -O3 -fopenmp")
 ## add messages
 add_message_files(
   FILES
-  # localization related messages
   CylinderMsg.msg
   CylinderArrayMsg.msg
   HandleListMsg.msg
@@ -42,7 +41,7 @@ catkin_package(
   CATKIN_DEPENDS 
     eigen_conversions 
     geometry_msgs 
-    message_generation 
+    message_runtime 
     roscpp 
     pcl_ros
     pcl_conversions
@@ -57,33 +56,34 @@ catkin_package(
 include_directories(${catkin_INCLUDE_DIRS})
 
 ## create executables
-add_executable(localization src/localization.cpp)
+add_executable(${PROJECT_NAME}_localization src/localization.cpp)
 
 ## create libraries
-add_library(affordances_lib src/affordances.cpp)
-add_library(visualizer_lib src/visualizer.cpp)
-add_library(messages_lib src/messages.cpp)
-add_library(cylindrical_shell_lib src/cylindrical_shell.cpp)
+add_library(${PROJECT_NAME}_affordances src/affordances.cpp)
+add_library(${PROJECT_NAME}_cylindrical_shell src/cylindrical_shell.cpp)
+add_library(${PROJECT_NAME}_messages src/messages.cpp)
+add_library(${PROJECT_NAME}_visualizer src/visualizer.cpp)
 
 ## add dependencies
-add_dependencies(messages_lib ${PROJECT_NAME}_gencpp)
+add_dependencies(${PROJECT_NAME}_messages ${PROJECT_NAME}_gencpp)
 
 ## link libraries to localization executable
-target_link_libraries(localization ${catkin_LIBRARIES})
-target_link_libraries(localization affordances_lib)
-target_link_libraries(localization visualizer_lib)
-target_link_libraries(localization messages_lib)
+target_link_libraries(${PROJECT_NAME}_localization ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_localization ${PROJECT_NAME}_affordances)
+target_link_libraries(${PROJECT_NAME}_localization ${PROJECT_NAME}_visualizer)
+target_link_libraries(${PROJECT_NAME}_localization ${PROJECT_NAME}_messages)
 
 ## link libraries to affordances library
-target_link_libraries(affordances_lib ${catkin_LIBRARIES})
-target_link_libraries(affordances_lib cylindrical_shell_lib)
-target_link_libraries(affordances_lib lapack)
+target_link_libraries(${PROJECT_NAME}_affordances ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_affordances ${PROJECT_NAME}_cylindrical_shell)
+target_link_libraries(${PROJECT_NAME}_affordances lapack)
 
 ## link libraries to messages library
-target_link_libraries(messages_lib ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_messages ${catkin_LIBRARIES})
 
 ## install targets
-install(TARGETS localization affordances_lib visualizer_lib messages_lib cylindrical_shell_lib
+install(TARGETS ${PROJECT_NAME}_localization ${PROJECT_NAME}_affordances 
+  ${PROJECT_NAME}_visualizer ${PROJECT_NAME}_messages ${PROJECT_NAME}_cylindrical_shell 
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
