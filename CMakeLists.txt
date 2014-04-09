@@ -36,8 +36,6 @@ generate_messages(DEPENDENCIES geometry_msgs)
 
 ## Declare a catkin package
 catkin_package(
-  LIBRARIES 
-    ${PROJECT_NAME}
   CATKIN_DEPENDS 
     eigen_conversions 
     geometry_msgs 
