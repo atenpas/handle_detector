@@ -22,7 +22,7 @@ find_package(Eigen REQUIRED)
 include_directories(${Eigen_INCLUDE_DIRS})
 
 ## compiler optimization flags
-set(CMAKE_CXX_FLAGS "-DNDEBUG -O3 -fopenmp")
+set(CMAKE_CXX_FLAGS "-DNDEBUG -O3 -fopenmp -Wno-deprecated")
 
 ## add messages
 add_message_files(
@@ -36,6 +36,8 @@ generate_messages(DEPENDENCIES geometry_msgs)
 
 ## Declare a catkin package
 catkin_package(
+  INCLUDE_DIRS
+    include
   CATKIN_DEPENDS 
     eigen_conversions 
     geometry_msgs 
@@ -47,19 +49,22 @@ catkin_package(
     tf
     tf_conversions
     visualization_msgs
- DEPENDS 
-  Eigen
-  LAPACK)
+  DEPENDS 
+    Eigen
+    LAPACK)
 
-include_directories(${catkin_INCLUDE_DIRS})
+include_directories(${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} include)
 
 ## create executables
 add_executable(${PROJECT_NAME}_localization src/localization.cpp)
+add_executable(${PROJECT_NAME}_importance_sampling src/importance_sampling.cpp)
 
 ## create libraries
 add_library(${PROJECT_NAME}_affordances src/affordances.cpp)
 add_library(${PROJECT_NAME}_cylindrical_shell src/cylindrical_shell.cpp)
 add_library(${PROJECT_NAME}_messages src/messages.cpp)
+add_library(${PROJECT_NAME}_sampling src/sampling.cpp)
+add_library(${PROJECT_NAME}_sampling_visualizer src/sampling_visualizer.cpp)
 add_library(${PROJECT_NAME}_visualizer src/visualizer.cpp)
 
 ## add dependencies
@@ -71,6 +76,13 @@ target_link_libraries(${PROJECT_NAME}_localization ${PROJECT_NAME}_affordances)
 target_link_libraries(${PROJECT_NAME}_localization ${PROJECT_NAME}_visualizer)
 target_link_libraries(${PROJECT_NAME}_localization ${PROJECT_NAME}_messages)
 
+## link libraries to importance_sampling executable
+target_link_libraries(${PROJECT_NAME}_importance_sampling ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_importance_sampling ${PROJECT_NAME}_affordances)
+target_link_libraries(${PROJECT_NAME}_importance_sampling ${PROJECT_NAME}_visualizer)
+target_link_libraries(${PROJECT_NAME}_importance_sampling ${PROJECT_NAME}_messages)
+target_link_libraries(${PROJECT_NAME}_importance_sampling ${PROJECT_NAME}_sampling)
+
 ## link libraries to affordances library
 target_link_libraries(${PROJECT_NAME}_affordances ${catkin_LIBRARIES})
 target_link_libraries(${PROJECT_NAME}_affordances ${PROJECT_NAME}_cylindrical_shell)
@@ -79,9 +91,14 @@ target_link_libraries(${PROJECT_NAME}_affordances lapack)
 ## link libraries to messages library
 target_link_libraries(${PROJECT_NAME}_messages ${catkin_LIBRARIES})
 
+## link libraries to sampling library
+target_link_libraries(${PROJECT_NAME}_sampling ${PROJECT_NAME}_affordances)
+target_link_libraries(${PROJECT_NAME}_sampling ${PROJECT_NAME}_sampling_visualizer)
+
 ## install targets
-install(TARGETS ${PROJECT_NAME}_localization ${PROJECT_NAME}_affordances 
-  ${PROJECT_NAME}_visualizer ${PROJECT_NAME}_messages ${PROJECT_NAME}_cylindrical_shell 
+install(TARGETS ${PROJECT_NAME}_localization ${PROJECT_NAME}_importance_sampling 
+    ${PROJECT_NAME}_affordances ${PROJECT_NAME}_sampling ${PROJECT_NAME}_sampling_visualizer
+    ${PROJECT_NAME}_visualizer ${PROJECT_NAME}_messages ${PROJECT_NAME}_cylindrical_shell 
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -90,3 +107,9 @@ install(TARGETS ${PROJECT_NAME}_localization ${PROJECT_NAME}_affordances
 ## install launch files
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
+
+## install header files  
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  PATTERN ".svn" EXCLUDE
+)

@@ -1,4 +1,4 @@
-#include "visualizer.h"
+#include <handle_detector/visualizer.h>
 
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 typedef visualization_msgs::MarkerArray MarkerArray;
@@ -67,6 +67,73 @@ Visualizer::createCylinders(const std::vector<CylindricalShell> &list, const std
 	}
 	
 	return marker_array;  
+}
+
+MarkerArray
+Visualizer::createHandleNumbers(const std::vector< std::vector<CylindricalShell> > &handles,
+    const std::string &frame)
+{
+  // create and resize a marker array message
+  MarkerArray marker_array;
+  marker_array.markers.resize(handles.size() * 2);
+
+  for (int i = 0; i < handles.size() * 2; i++)
+  {
+    visualization_msgs::Marker marker;
+    marker.header.frame_id = frame;
+    marker.header.stamp = ros::Time::now();
+    marker.ns = "handle_numbers";
+    marker.id = i;
+    marker.lifetime = ros::Duration(this->marker_lifetime);
+
+    if (i % 2 == 0)
+    {
+      marker.type = visualization_msgs::Marker::TEXT_VIEW_FACING;
+      marker.action = visualization_msgs::Marker::ADD;
+
+      // height of an upper-case "A"
+      marker.scale.z = 0.03;
+
+      // marker position
+      marker.pose.position.x = handles[i/2][0].getCentroid()(0);
+      marker.pose.position.y = handles[i/2][0].getCentroid()(1);
+      marker.pose.position.z = handles[i/2][0].getCentroid()(2) - 0.06;
+
+      // marker color and transparency
+      marker.color.a = 1.0;
+      marker.color.r = 1.0;
+      marker.color.g = 0.0;
+      marker.color.b = 0.0;
+
+      // displayed text
+      marker.text = boost::lexical_cast<std::string>(i/2);
+    }
+    else
+    {
+      // type of marker (cylinder)
+      marker.type = visualization_msgs::Marker::CUBE;
+      marker.action = visualization_msgs::Marker::ADD;
+
+      // height of an upper-case "A"
+      marker.scale.x = 0.03;
+      marker.scale.y = 0.03;
+      marker.scale.z = 0.001;
+
+      // marker position
+      marker.pose.position.x = marker_array.markers[i-1].pose.position.x;
+      marker.pose.position.y = marker_array.markers[i-1].pose.position.y;
+      marker.pose.position.z = marker_array.markers[i-1].pose.position.z + 0.015;
+
+      // marker color and transparency
+      marker.color.a = 1.0;
+      marker.color.r = 1.0;
+      marker.color.g = 1.0;
+      marker.color.b = 1.0;
+    }
+    marker_array.markers[i] = marker;
+  }
+
+  return marker_array;
 }
 
 void 

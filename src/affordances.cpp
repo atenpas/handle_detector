@@ -1,4 +1,4 @@
-#include "affordances.h"
+#include <handle_detector/affordances.h>
 
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
@@ -19,13 +19,39 @@ const double Affordances::HANDLE_GAP = 0.08;
 const double Affordances::MAX_RANGE = 1.0;
 const bool Affordances::USE_CLEARANCE_FILTER = true;
 const bool Affordances::USE_OCCLUSION_FILTER = true;
-const int Affordances::RANSAC_RUNS = 3;
-const int Affordances::RANSAC_MIN_INLIERS = 10;
-const double Affordances::RANSAC_DIST_RADIUS = 0.02;
-const double Affordances::RANSAC_ORIENT_RADIUS = 0.1;
-const double Affordances::RANSAC_RADIUS_RADIUS = 0.003;
+const int Affordances::ALIGNMENT_RUNS = 3;
+const int Affordances::ALIGNMENT_MIN_INLIERS = 10;
+const double Affordances::ALIGNMENT_DIST_RADIUS = 0.02;
+const double Affordances::ALIGNMENT_ORIENT_RADIUS = 0.1;
+const double Affordances::ALIGNMENT_RADIUS_RADIUS = 0.003;
 const double Affordances::WORKSPACE_MIN = -1.0;
 const double Affordances::WORKSPACE_MAX = 1.0;
+
+//Affordances& Affordances::operator=(const Affordances& affordances)
+//{
+//  this->target_radius = affordances.target_radius;
+//  this->radius_error = affordances.radius_error;
+//  this->handle_gap = affordances.handle_gap;
+//  this->num_samples = affordances.num_samples;
+//  this->max_range = affordances.max_range;
+//  this->use_clearance_filter = affordances.use_clearance_filter;
+//  this->use_occlusion_filter = affordances.use_occlusion_filter;
+//  this->curvature_estimator = affordances.curvature_estimator;
+//  this->alignment_runs = affordances.alignment_runs;
+//  this->alignment_min_inliers = affordances.alignment_min_inliers;
+//  this->alignment_dist_radius = affordances.alignment_dist_radius;
+//  this->alignment_orient_radius = affordances.alignment_orient_radius;
+//  this->alignment_radius_radius = affordances.alignment_radius_radius;
+//  this->num_threads = affordances.num_threads;
+//  this->file = affordances.file;
+//  this->workspace_limits = new WorkspaceLimits;
+//  *this->workspace_limits = *affordances.workspace_limits;
+//  printf("assignment operator\n");
+//  printf("%.2f %.2f\n", this->workspace_limits->max_x, affordances.workspace_limits->max_x);
+//  printf("%.2f %.2f\n", this->workspace_limits->max_y, affordances.workspace_limits->max_y);
+//  std::cout<<this->workspace_limits->max_x<<" "<<affordances.workspace_limits->max_x<<"\n";
+//  return *this;
+//}
 
 void 
 Affordances::initParams(ros::NodeHandle node)
@@ -41,11 +67,11 @@ Affordances::initParams(ros::NodeHandle node)
 	node.param("use_clearance_filter", this->use_clearance_filter, this->USE_CLEARANCE_FILTER);
 	node.param("use_occlusion_filter", this->use_occlusion_filter, this->USE_OCCLUSION_FILTER);
   node.param("curvature_estimator", this->curvature_estimator, this->CURVATURE_ESTIMATOR);
-	node.param("ransac_runs", this->ransac_runs, this->RANSAC_RUNS);
-	node.param("ransac_min_inliers", this->ransac_min_inliers, this->RANSAC_MIN_INLIERS);
-	node.param("ransac_dist_radius", this->ransac_dist_radius, this->RANSAC_DIST_RADIUS);
-	node.param("ransac_orient_radius", this->ransac_orient_radius, this->RANSAC_ORIENT_RADIUS);
-	node.param("ransac_radius_radius", this->ransac_radius_radius, this->RANSAC_RADIUS_RADIUS);
+	node.param("alignment_runs", this->alignment_runs, this->ALIGNMENT_RUNS);
+	node.param("alignment_min_inliers", this->alignment_min_inliers, this->ALIGNMENT_MIN_INLIERS);
+	node.param("alignment_dist_radius", this->alignment_dist_radius, this->ALIGNMENT_DIST_RADIUS);
+	node.param("alignment_orient_radius", this->alignment_orient_radius, this->ALIGNMENT_ORIENT_RADIUS);
+	node.param("alignment_radius_radius", this->alignment_radius_radius, this->ALIGNMENT_RADIUS_RADIUS);
 	node.param("workspace_min_x", this->workspace_limits.min_x, this->WORKSPACE_MIN);
 	node.param("workspace_max_x", this->workspace_limits.max_x, this->WORKSPACE_MAX);
 	node.param("workspace_min_y", this->workspace_limits.min_y, this->WORKSPACE_MIN);
@@ -65,11 +91,11 @@ Affordances::initParams(ros::NodeHandle node)
 	printf(" use clearance filter: %s\n", this->use_clearance_filter ? "true" : "false");
 	printf(" use occlusion filter: %s\n", this->use_occlusion_filter ? "true" : "false");
   printf(" curvature estimator: %s\n", CURVATURE_ESTIMATORS[this->curvature_estimator].c_str());
-	printf(" number of RANSAC runs: %i\n", this->ransac_runs);
-	printf(" min. number of RANSAC inliers: %i\n", this->ransac_min_inliers);
-	printf(" RANSAC distance threshold: %.3f\n", this->ransac_dist_radius);
-	printf(" RANSAC orientation threshold: %.3f\n", this->ransac_orient_radius);
-	printf(" RANSAC radius threshold: %.3f\n", this->ransac_radius_radius);
+	printf(" number of alignment runs: %i\n", this->alignment_runs);
+	printf(" min. number of alignment inliers: %i\n", this->alignment_min_inliers);
+	printf(" alignment distance threshold: %.3f\n", this->alignment_dist_radius);
+	printf(" alignment orientation threshold: %.3f\n", this->alignment_orient_radius);
+	printf(" alignment radius threshold: %.3f\n", this->alignment_radius_radius);
 	printf(" workspace_min_x: %.3f\n", this->workspace_limits.min_x);
 	printf(" workspace_max_x: %.3f\n", this->workspace_limits.max_x);
 	printf(" workspace_min_y: %.3f\n", this->workspace_limits.min_y);
@@ -112,6 +138,20 @@ PointCloud::Ptr
 Affordances::workspaceFilter(const PointCloud::Ptr &cloud_in)
 {
 	PointCloud::Ptr cloud_out(new PointCloud);
+	
+	for (int i=0; i < cloud_in->points.size(); i++)
+	{
+		if (this->isPointInWorkspace(cloud_in->points[i].x, cloud_in->points[i].y, cloud_in->points[i].z))
+			cloud_out->points.push_back(cloud_in->points[i]);
+	}
+	
+	return cloud_out;
+}
+
+PointCloudRGB::Ptr 
+Affordances::workspaceFilter(const PointCloudRGB::Ptr &cloud_in)
+{
+	PointCloudRGB::Ptr cloud_out(new PointCloudRGB);
 	
 	for (int i=0; i < cloud_in->points.size(); i++)
 	{
@@ -215,12 +255,17 @@ Affordances::estimateNormals(const PointCloud::Ptr &cloud,
 
 std::vector<CylindricalShell> Affordances::searchAffordances(const PointCloud::Ptr &cloud)
 {
+  std::vector<CylindricalShell> shells;
+  shells.resize(0);
+
   if (this->curvature_estimator == TAUBIN)
-    return this->searchAffordancesTaubin(cloud);
+    shells = this->searchAffordancesTaubin(cloud);
   else if (this->curvature_estimator == NORMALS)
-    return this->searchAffordancesNormalsOrPCA(cloud);
+    shells = this->searchAffordancesNormalsOrPCA(cloud);
   else if (this->curvature_estimator == PCA)
-    return this->searchAffordancesNormalsOrPCA(cloud);
+    shells = this->searchAffordancesNormalsOrPCA(cloud);
+
+  return shells;
 }
 
 std::vector<CylindricalShell> 
@@ -382,12 +427,24 @@ Affordances::searchAffordancesTaubin(const PointCloud::Ptr &cloud)
 	// provide a set of neighborhood centroids
 	std::vector<int> indices(this->num_samples);
 	std::srand(std::time(0)); // use current time as seed for random generator
+  int k;
 	for (int i = 0; i < this->num_samples; i++)
 	{
-		int r = std::rand() % cloud->points.size();		
-		while (!pcl::isFinite((*cloud)[r]) 
+		int r = std::rand() % cloud->points.size();
+    k = 0;
+		while (!pcl::isFinite((*cloud)[r])
 				|| !this->isPointInWorkspace(cloud->points[r].x, cloud->points[r].y, cloud->points[r].z))
-			r = std::rand() % cloud->points.size();			
+    {
+			r = std::rand() % cloud->points.size();
+      k++;
+      if (k == cloud->points.size()) // check that the cloud has finite points
+      {
+        printf("No finite points in cloud!\n");
+        std::vector<CylindricalShell> shells;
+        shells.resize(0);
+        return shells;
+      }
+    }
 		indices[i] = r;
 	}
 	boost::shared_ptr<std::vector<int> > indices_ptr(new std::vector<int>(indices));
@@ -477,19 +534,19 @@ Affordances::searchHandles(const PointCloud::Ptr &cloud, std::vector<Cylindrical
 	std::vector< std::vector<CylindricalShell> > handles;
   
   // find colinear sets of cylinders
-	if (this->ransac_runs > 0)
+	if (this->alignment_runs > 0)
 	{    
-		std::cout<<"RANSAC search for colinear sets of cylinders (handles) ... "<<std::endl;
+		std::cout<<"alignment search for colinear sets of cylinders (handles) ... "<<std::endl;
 		double beginTime = omp_get_wtime();
 		std::vector<int> inliersMaxSet, outliersMaxSet;
 		
 		// linear search		
-		for (int i=0; i < this->ransac_runs && shells.size() > 0 ; i++) // && cylinderList.size() > 0
+		for (int i=0; i < this->alignment_runs && shells.size() > 0 ; i++) // && cylinderList.size() > 0
 		{
       this->findBestColinearSet(shells, inliersMaxSet, outliersMaxSet);
 			printf(" number of inliers in run %i: %i", i, (int) inliersMaxSet.size());
       			
-			if (inliersMaxSet.size() >= this->ransac_min_inliers)
+			if (inliersMaxSet.size() >= this->alignment_min_inliers)
 			{
         // create handle from inlier indices
         std::vector<CylindricalShell> handle;
@@ -549,14 +606,150 @@ Affordances::searchHandles(const PointCloud::Ptr &cloud, std::vector<Cylindrical
   return handles;
 }
 
+std::vector<CylindricalShell> 
+Affordances::searchAffordances(const PointCloud::Ptr &cloud, const std::vector<int> &indices)
+{
+  Eigen::MatrixXd samples(3, indices.size());  
+  for (int i=0; i < indices.size(); i++)
+    samples.col(i) = cloud->points[indices[i]].getVector3fMap().cast<double>();
+  
+  return this->searchAffordancesTaubin(cloud, samples);
+}
+
+std::vector<CylindricalShell> 
+Affordances::searchAffordancesTaubin(const PointCloud::Ptr &cloud, 
+  const Eigen::MatrixXd &samples, bool is_logging)
+{
+  if (is_logging)
+    printf("Estimating curvature ...\n");
+	
+  double beginTime = omp_get_wtime();
+	
+	// set-up estimator
+	pcl::PointCloud<pcl::PointCurvatureTaubin>::Ptr cloud_curvature (new pcl::PointCloud<pcl::PointCurvatureTaubin>);
+  pcl::CurvatureEstimationTaubin<pcl::PointXYZ, pcl::PointCurvatureTaubin> estimator;
+	estimator.setInputCloud(cloud);
+	estimator.setRadiusSearch(this->NEIGHBOR_RADIUS);
+  //~ estimator.setRadiusSearch(1.5*target_radius + radius_error);
+	estimator.setNumThreads(this->num_threads);	
+  
+	// compute median curvature, normal axis, curvature axis, and curvature centroid
+  estimator.computeFeature(samples, *cloud_curvature);
+	
+  if (is_logging)
+    printf(" elapsed time: %.3f sec, cylinders left: %i\n", omp_get_wtime() - beginTime, 
+      (int) cloud_curvature->points.size());
+  	
+	// define lower and upper bounds on radius of osculating sphere and cylinder
+	double min_radius_osculating_sphere = this->target_radius - 2.0 * this->radius_error;
+	double max_radius_osculating_sphere = this->target_radius + 2.0 * this->radius_error;
+	double min_radius_cylinder = this->target_radius - this->radius_error;
+	double max_radius_cylinder = this->target_radius + this->radius_error;
+	
+	if (is_logging && this->use_clearance_filter)
+    printf("Filtering on curvature, fitting cylinders, and filtering on low clearance ...\n");
+  else if (is_logging)
+    printf("Filtering on curvature and fitting cylinders ...\n");
+      
+	double begin_time = omp_get_wtime();
+	int cylinders_left_radius = 0;
+	int cylinders_left_clearance = 0;
+	Eigen::Vector3d normal;
+	Eigen::Vector3d curvature_axis;
+  std::vector<CylindricalShell> shells;
+  double tcyltotal = 0.0;
+  double tcleartotal = 0.0;
+		
+	//~ #ifdef _OPENMP
+		//~ #pragma omp parallel for shared (cylinderList) firstprivate(cloud_curvature) private(radius, centroid_cyl, extent_cyl, normal, curvature_axis, curvature_centroid) num_threads(this->num_threads)
+	//~ #endif  
+	for (int i = 0; i < cloud_curvature->size(); i++) 
+	{
+		if (isnan(cloud_curvature->points[i].normal[0]))
+      continue;
+    
+    // calculate radius of osculating sphere							
+    double radius = 1.0 / fabs(cloud_curvature->points[i].median_curvature);
+    //~ printf("%i: radius of osculating sphere: %.4f\n", i, radius);
+								
+		// filter out planar regions and cylinders that are too large    
+		if (radius > min_radius_osculating_sphere && radius < max_radius_osculating_sphere)
+		{
+			// fit a cylinder to the neighborhood
+      double tcyl0 = omp_get_wtime();
+      normal << cloud_curvature->points[i].normal_x, cloud_curvature->points[i].normal_y, 
+					cloud_curvature->points[i].normal_z;
+			curvature_axis << cloud_curvature->points[i].curvature_axis_x, 
+				cloud_curvature->points[i].curvature_axis_y, cloud_curvature->points[i].curvature_axis_z;
+      CylindricalShell shell;
+			shell.fitCylinder(cloud, estimator.getNeighborhoods()[i], normal, curvature_axis);
+      tcyltotal += omp_get_wtime() - tcyl0;
+      
+      //~ printf(" radius of fitted cylinder: %.4f\n", shell.getRadius());
+			
+      // set height of shell to 2 * <target_radius>
+      shell.setExtent(2.0 * this->target_radius);
+      
+      // set index of centroid of neighborhood associated with the cylindrical shell
+      shell.setNeighborhoodCentroidIndex(estimator.getNeighborhoodCentroids()[i]);
+			
+			// check cylinder radius against target radius
+			if (shell.getRadius() > min_radius_cylinder && shell.getRadius() < max_radius_cylinder)
+			{
+        cylinders_left_radius++;
+          
+        // filter on low clearance        
+        if (this->use_clearance_filter)
+        {
+          double tclear0 = omp_get_wtime();
+          if (shell.hasClearance(cloud, this->target_radius + this->radius_error, this->handle_gap))
+            shells.push_back(shell);
+          tcleartotal += omp_get_wtime() - tclear0;
+        }
+        else
+          shells.push_back(shell);
+			}
+		}
+	}
+
+  if (is_logging)
+  {
+    printf(" elapsed time: %.3f sec\n", omp_get_wtime() - begin_time);
+    printf(" cylinders left after radius filtering: %i\n", cylinders_left_radius);
+    if (this->use_clearance_filter)
+      printf(" cylinders left after clearance filtering: %i\n", (int) shells.size());
+    printf("  cylinder/circle fitting: %.3f sec\n", tcyltotal);
+    printf("  shell search: %.3f sec\n", tcleartotal);
+  }
+				
+	return shells;
+}
+
+std::vector<int> 
+Affordances::createRandomIndices(const PointCloud::Ptr &cloud, int size)
+{
+  std::vector<int> indices(size);
+
+  for (int i = 0; i < size; i++)
+  {
+    int r = std::rand() % cloud->points.size();		
+    while (!pcl::isFinite((*cloud)[r]) 
+        || !this->isPointInWorkspace(cloud->points[r].x, cloud->points[r].y, cloud->points[r].z))
+      r = std::rand() % cloud->points.size();			
+    indices[i] = r;
+  }
+
+  return indices;
+}
+
 void 
 Affordances::findBestColinearSet(const std::vector<CylindricalShell> &list, 
                                       std::vector<int> &inliersMaxSet, 
                                       std::vector<int> &outliersMaxSet)
 {
 	int maxInliers = 0;
-	double orientRadius2 = this->ransac_orient_radius * this->ransac_orient_radius;
-	double distRadius2 = this->ransac_dist_radius * this->ransac_dist_radius;
+	double orientRadius2 = this->alignment_orient_radius * this->alignment_orient_radius;
+	double distRadius2 = this->alignment_dist_radius * this->alignment_dist_radius;
 		
 	for (int i = 0; i < list.size(); i++)
 	{
@@ -573,7 +766,7 @@ Affordances::findBestColinearSet(const std::vector<CylindricalShell> &list,
 			double distToAxis = distToAxisVec.cwiseProduct(distToAxisVec).sum();
 			double distToRadius = fabs(list[j].getRadius() - radius);
 			
-			if (distToOrient < orientRadius2 && distToAxis < distRadius2 && distToRadius < this->ransac_radius_radius)
+			if (distToOrient < orientRadius2 && distToAxis < distRadius2 && distToRadius < this->alignment_radius_radius)
 				inliers.push_back(j);
 			else
 				outliers.push_back(j);

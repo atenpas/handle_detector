@@ -2,6 +2,9 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.0.7 (2014-04-09)
 ------------------
 * removed LIBRARIES from catkin_package(...) call in CMakeLists.txt

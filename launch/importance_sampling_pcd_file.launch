@@ -1,0 +1,41 @@
+<launch>
+	<node name="importance_sampling" pkg="handle_detector" type="handle_detector_importance_sampling" output="screen">
+		<!-- affordance search parameters -->
+    <param name="file" value="/home/andreas/baxter_ws/src/handle_detector/data/stagedcleaning8.pcd" />
+		<param name="target_radius" value="0.013" />
+		<param name="target_radius_error" value="0.013" />
+		<param name="affordance_gap" value="0.008" />
+		<param name="use_clearance_filter" value="true" />
+		<param name="use_occlusion_filter" value="false" />
+    <param name="curvature_estimator" value="0" />
+		<param name="point_cloud_source" value="0" />
+		<param name="update_interval" value="3.0" />
+		
+	  <!-- sampling parameters -->
+	  <param name="num_iterations" value="10" />
+    <param name="num_samples" value="100" />
+    <param name="num_init_samples" value="1000" />
+    <param name="prob_rand_samples" value="0.2" />    
+    <param name="sampling_method" value="1" />
+    <param name="visualize_steps" value="false" /> 
+  	  	
+		<!-- alignment parameters -->
+		<param name="alignment_runs" value="15" />
+		<param name="alignment_min_inliers" value="8" />
+		<param name="alignment_dist_radius" value="0.02" />
+		<param name="alignment_orient_radius" value="0.4" />
+		<param name="alignment_radius_radius" value="0.003" />
+				
+		<!-- workspace limits -->
+		<param name="max_range" value="1.2" />
+		<param name="workspace_min_x" value="-0.15" />
+		<param name="workspace_max_x" value="0.7" />
+		<param name="workspace_min_y" value="-0.3" />
+		<param name="workspace_max_y" value="0.3" />
+		<param name="workspace_min_z" value="0.55" />
+		<param name="workspace_max_z" value="0.8" />
+		
+		<!-- number of threads to use -->
+		<param name="num_threads" value="8" />
+	</node>
+</launch>

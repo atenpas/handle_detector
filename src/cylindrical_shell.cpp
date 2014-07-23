@@ -1,4 +1,4 @@
-#include "cylindrical_shell.h"
+#include <handle_detector/cylindrical_shell.h>
 
 void 
 CylindricalShell::fitCylinder(const PointCloud::Ptr &cloud, const std::vector<int> &indices, 
