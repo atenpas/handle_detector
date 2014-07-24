@@ -2,7 +2,7 @@
 
 **Author:** Andreas ten Pas (atp@ccs.neu.edu)
 
-**Version:** 1.1.0
+**Version:** 1.0.0
 
 **Wiki:** http://wiki.ros.org/handle_detector
 
