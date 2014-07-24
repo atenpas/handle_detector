@@ -2,10 +2,11 @@
 
 <package>
   <name>handle_detector</name>
-  <version>1.0.7</version>
+  <version>1.1.0</version>
   <description>ROS package to detect handles.</description>
   <maintainer email="atp@ccs.neu.edu">Andreas ten Pas</maintainer>
   <license>BSD</license>
+  <url>http://wiki.ros.org/handle_detector</url>
   
   <buildtool_depend>catkin</buildtool_depend>
   

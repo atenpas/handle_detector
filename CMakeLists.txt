@@ -3,7 +3,7 @@ project(handle_detector)
 
 ## find catkin and required packages
 find_package(catkin REQUIRED COMPONENTS 
-	eigen_conversions 
+  eigen_conversions 
   geometry_msgs 
 	message_generation   
   roscpp 
@@ -49,7 +49,7 @@ catkin_package(
     tf
     tf_conversions
     visualization_msgs
-  DEPENDS 
+  DEPENDS
     Eigen
     LAPACK)
 
@@ -110,6 +110,4 @@ install(DIRECTORY launch/
 
 ## install header files  
 install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  PATTERN ".svn" EXCLUDE
-)
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
