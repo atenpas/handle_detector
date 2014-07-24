@@ -4,6 +4,11 @@ Changelog for package handle_detector
 
 Forthcoming
 -----------
+* updated readme
+* updated CMakeLists and package.xml
+* cleaned up folders; added documentation
+* added importance sampling (reduces number of samples)
+* Contributors: atenpas
 
 1.0.7 (2014-04-09)
 ------------------
