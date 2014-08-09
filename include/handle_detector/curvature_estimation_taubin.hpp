@@ -179,7 +179,7 @@ pcl::CurvatureEstimationTaubin<PointInT, PointOutT>::computeFeature(PointCloudOu
   #endif
   
   // iterate over indices vector
-  for (size_t idx = 0; idx < indices_->size(); ++idx)
+  for (std::size_t idx = 0; idx < indices_->size(); ++idx)
   {
     if (this->searchForNeighbors ((*indices_)[idx], search_parameter_, nn_indices, nn_dists) == 0)
     {

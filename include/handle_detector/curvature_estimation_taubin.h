@@ -344,7 +344,7 @@ namespace pcl
 					Eigen::Matrix<double,3,Eigen::Dynamic> samples_matrix(3, indices.size());
 					sample_num = 0;
 										
-					for (int t = 0; t < indices.size(); t++)
+					for (std::size_t t = 0; t < indices.size(); t++)
 					{
 						if (isnan(this->input_->points[indices[t]].x))
 							continue;

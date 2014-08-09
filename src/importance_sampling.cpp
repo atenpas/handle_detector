@@ -211,7 +211,7 @@ int main(int argc, char** argv)
 			visualizer.createHandles(g_handles, range_sensor_frame, marker_arrays,
                               marker_array_msg_handles);
 			handle_pubs.resize(g_handles.size());
-			for (int i=0; i < handle_pubs.size(); i++)
+			for (std::size_t i=0; i < handle_pubs.size(); i++)
 				handle_pubs[i] = node.advertise<visualization_msgs::MarkerArray>("visualization_handle_" + boost::lexical_cast<std::string>(i), 10);
       ROS_INFO("update messages");
 			
@@ -228,7 +228,7 @@ int main(int argc, char** argv)
 		marker_array_pub.publish(marker_array_msg);
 		
 		// publish handles for visualization
-		for (int i=0; i < handle_pubs.size(); i++)
+		for (std::size_t i=0; i < handle_pubs.size(); i++)
 			handle_pubs[i].publish(marker_arrays[i]);
 		
 		// publish handles for visualization	

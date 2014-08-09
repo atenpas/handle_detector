@@ -23,7 +23,7 @@ SamplingVisualizer::addCylinders(const std::vector<CylindricalShell> &shells, vo
   boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer =
     *static_cast<boost::shared_ptr<pcl::visualization::PCLVisualizer> *> (viewer_void);
 
-  for (int i=0; i < shells.size(); i++)
+  for (std::size_t i=0; i < shells.size(); i++)
   {
     std::string id = "cylinder" + handle_index + boost::lexical_cast<std::string>(i);
     viewer->addCylinder(createCylinder(shells[i].getCentroid(), shells[i].getCurvatureAxis(),
@@ -50,7 +50,7 @@ SamplingVisualizer::createViewer(PointCloud::ConstPtr cloud, std::vector<Cylindr
 
   addCylinders(shells, (void*)&viewer, "", 0, 1.0, 1.0);
 
-  for(int i=0; i < samples.cols(); i++)
+  for (std::size_t i=0; i < samples.cols(); i++)
   {
     pcl::PointXYZ center;
     center.x = samples(0,i);
@@ -76,7 +76,7 @@ SamplingVisualizer::createViewerRGB(PointCloudRGB::ConstPtr cloud, std::vector<C
 
   addCylinders(shells, (void*)&viewer, "", 0, 1.0, 1.0);
 
-  for(int i=0; i < samples.cols(); i++)
+  for (std::size_t i=0; i < samples.cols(); i++)
   {
     pcl::PointXYZ center;
     center.x = samples(0,i);

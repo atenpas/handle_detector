@@ -8,7 +8,7 @@ Messages::createCylinderArray(const std::vector<CylindricalShell> &list, std::st
 	msg.header.frame_id = frame;
 	msg.cylinders.resize(list.size());
 	
-	for (int i = 0; i < list.size(); i++)
+	for (std::size_t i = 0; i < list.size(); i++)
 	{
 		msg.cylinders[i] = createCylinder(list[i], frame);
 	}
@@ -62,7 +62,7 @@ Messages::createHandleList(const std::vector< std::vector<CylindricalShell> > &h
 	msg.header.frame_id = frame;
 	msg.handles.resize(handles.size());
 	
-	for (int i=0; i < handles.size(); i++)
+	for (std::size_t i=0; i < handles.size(); i++)
 		msg.handles[i] = createCylinderArray(handles[i], frame);
 	
 	return msg;  

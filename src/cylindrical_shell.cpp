@@ -73,7 +73,7 @@ CylindricalShell::hasClearance(const PointCloud::Ptr &cloud, double maxHandApert
     {
       std::vector<int> cropped_indices;
           
-      for (int i = 0; i < nn_indices.size(); i++)
+      for (std::size_t i = 0; i < nn_indices.size(); i++)
       {
         Eigen::Vector3d cropped = cloud->points[nn_indices[i]].getVector3fMap().cast<double>();
         double axialDist = this->curvature_axis.dot(cropped - centroid);
@@ -84,7 +84,7 @@ CylindricalShell::hasClearance(const PointCloud::Ptr &cloud, double maxHandApert
       }
       
       Eigen::Matrix<double,3,Eigen::Dynamic> croppedPts(3,cropped_indices.size());
-      for (int i = 0; i < cropped_indices.size(); i++)
+      for (std::size_t i = 0; i < cropped_indices.size(); i++)
         croppedPts.col(i) = cloud->points[nn_indices[cropped_indices[i]]].getVector3fMap().cast<double>();
       
       Eigen::MatrixXd normalDiff = (Eigen::MatrixXd::Identity(3,3) - curvature_axis * curvature_axis.transpose()) * (croppedPts - centroid.replicate(1, croppedPts.cols()));
@@ -123,7 +123,7 @@ CylindricalShell::hasClearance(const PointCloud::Ptr &cloud, double maxHandApert
     {
       std::vector<int> cropped_indices;
           
-      for (int i = 0; i < nn_indices.size(); i++)
+      for (std::size_t i = 0; i < nn_indices.size(); i++)
       {
         Eigen::Vector3d cropped = cloud->points[nn_indices[i]].getVector3fMap().cast<double>();
         double axialDist = this->curvature_axis.dot(cropped - centroid);
@@ -134,7 +134,7 @@ CylindricalShell::hasClearance(const PointCloud::Ptr &cloud, double maxHandApert
       }
       
       Eigen::Matrix<double,3,Eigen::Dynamic> croppedPts(3,cropped_indices.size());
-      for (int i = 0; i < cropped_indices.size(); i++)
+      for (std::size_t i = 0; i < cropped_indices.size(); i++)
         croppedPts.col(i) = cloud->points[nn_indices[cropped_indices[i]]].getVector3fMap().cast<double>();
       
       Eigen::MatrixXd normalDiff = (Eigen::MatrixXd::Identity(3,3) - curvature_axis * curvature_axis.transpose()) * (croppedPts - centroid.replicate(1, croppedPts.cols()));

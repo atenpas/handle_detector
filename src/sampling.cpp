@@ -46,7 +46,7 @@ Sampling::illustrate(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr &clo
   Eigen::MatrixXd samples_max(3, num_samples);
   int j = 0;
   int count[all_shells.size()];
-  for (int k=0; k < all_shells.size(); k++)
+  for (std::size_t k=0; k < all_shells.size(); k++)
     count[k] = 0;
   while (j < num_samples) // draw samples using rejection sampling
   {
@@ -58,7 +58,7 @@ Sampling::illustrate(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr &clo
     x(2) = all_shells[idx].getCentroid()(2) + generator() * sigma;
 
     double maxp = 0;
-    for (int k=0; k < all_shells.size(); k++)
+    for (std::size_t k=0; k < all_shells.size(); k++)
     {
       double p = (x - all_shells[k].getCentroid()).transpose() * (x - all_shells[k].getCentroid());
       p = term * exp((-1.0/(2.0*sigma)) * p);
@@ -114,7 +114,7 @@ Sampling::searchAffordances(const PointCloud::Ptr &cloud, const PointCloudRGB::P
   if (this->is_visualized)
   {
     Eigen::MatrixXd init_samples(3, num_init_samples);
-    for (int i=0; i < num_init_samples; i++)
+    for (std::size_t i=0; i < num_init_samples; i++)
     {
       init_samples(0,i) = cloudrgb->points[indices[i]].x;
       init_samples(1,i) = cloudrgb->points[indices[i]].y;
@@ -151,14 +151,14 @@ Sampling::searchAffordances(const PointCloud::Ptr &cloud, const PointCloudRGB::P
   Eigen::MatrixXd samples(3, num_samples);
 
   // find affordances using importance sampling
-  for (int i=0; i < num_iterations; i++)
+  for (std::size_t i=0; i < num_iterations; i++)
   {
     double iteration_start_time = omp_get_wtime();
 
     // draw samples close to affordances (importance sampling)
     if (this->method == SUM) // sum of Gaussians
     {
-      for (int j=0; j < num_gauss_samples; j++)
+      for (std::size_t j=0; j < num_gauss_samples; j++)
       {
         int idx = rand() % all_shells.size();
         samples(0,j) = all_shells[idx].getCentroid()(0) + generator() * sigma;
@@ -179,7 +179,7 @@ Sampling::searchAffordances(const PointCloud::Ptr &cloud, const PointCloudRGB::P
         x(2) = all_shells[idx].getCentroid()(2) + generator() * sigma;
 
         double maxp = 0;
-        for (int k=0; k < all_shells.size(); k++)
+        for (std::size_t k=0; k < all_shells.size(); k++)
         {
           double p = (x - all_shells[k].getCentroid()).transpose() * (x - all_shells[k].getCentroid());
           p = term * exp((-1.0/(2.0*sigma)) * p);

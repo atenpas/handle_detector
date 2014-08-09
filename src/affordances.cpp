@@ -110,7 +110,7 @@ Affordances::maxRangeFilter(const PointCloud::Ptr &cloud_in)
 {
 	PointCloud::Ptr cloud_out(new PointCloud);
 	
-	for (int i=0; i < cloud_in->points.size(); i++)
+	for (std::size_t i=0; i < cloud_in->points.size(); i++)
 	{
 		if (cloud_in->points[i].x*cloud_in->points[i].x + cloud_in->points[i].y*cloud_in->points[i].y 
         + cloud_in->points[i].z*cloud_in->points[i].z < this->max_range*this->max_range)
@@ -139,7 +139,7 @@ Affordances::workspaceFilter(const PointCloud::Ptr &cloud_in)
 {
 	PointCloud::Ptr cloud_out(new PointCloud);
 	
-	for (int i=0; i < cloud_in->points.size(); i++)
+	for (std::size_t i=0; i < cloud_in->points.size(); i++)
 	{
 		if (this->isPointInWorkspace(cloud_in->points[i].x, cloud_in->points[i].y, cloud_in->points[i].z))
 			cloud_out->points.push_back(cloud_in->points[i]);
@@ -153,7 +153,7 @@ Affordances::workspaceFilter(const PointCloudRGB::Ptr &cloud_in)
 {
 	PointCloudRGB::Ptr cloud_out(new PointCloudRGB);
 	
-	for (int i=0; i < cloud_in->points.size(); i++)
+	for (std::size_t i=0; i < cloud_in->points.size(); i++)
 	{
 		if (this->isPointInWorkspace(cloud_in->points[i].x, cloud_in->points[i].y, cloud_in->points[i].z))
 			cloud_out->points.push_back(cloud_in->points[i]);
@@ -171,7 +171,7 @@ Affordances::numInFront(const PointCloud::Ptr &cloud, int center_index, double r
 	Eigen::Vector3f center_unit = center / dist_center;
 	int num_in_front = 0;
 		
-	for (int i=0; i < cloud->points.size(); i++)
+	for (std::size_t i=0; i < cloud->points.size(); i++)
 	{
 			if (isnan(cloud->points[i].x))
 				continue;
@@ -222,7 +222,7 @@ Affordances::estimateCurvatureAxisNormals(const pcl::PointCloud<pcl::Normal>::Pt
 	Eigen::Matrix3d mat;
 	mat.setZero();
 	
-	for (int j = 0; j < nn_indices.size(); j++) 
+	for (std::size_t j = 0; j < nn_indices.size(); j++)
 	{
 		Eigen::Vector3d normal;
 		normal << cloud_normals->points[nn_indices[j]].normal[0], cloud_normals->points[nn_indices[j]].normal[1], cloud_normals->points[nn_indices[j]].normal[2];
@@ -541,7 +541,7 @@ Affordances::searchHandles(const PointCloud::Ptr &cloud, std::vector<Cylindrical
 		std::vector<int> inliersMaxSet, outliersMaxSet;
 		
 		// linear search		
-		for (int i=0; i < this->alignment_runs && shells.size() > 0 ; i++) // && cylinderList.size() > 0
+		for (int i=0; i < this->alignment_runs && shells.size() > 0 ; i++)
 		{
       this->findBestColinearSet(shells, inliersMaxSet, outliersMaxSet);
 			printf(" number of inliers in run %i: %i", i, (int) inliersMaxSet.size());
@@ -550,7 +550,7 @@ Affordances::searchHandles(const PointCloud::Ptr &cloud, std::vector<Cylindrical
 			{
         // create handle from inlier indices
         std::vector<CylindricalShell> handle;
-        for (int j=0; j < inliersMaxSet.size(); j++)
+        for (std::size_t j=0; j < inliersMaxSet.size(); j++)
         {
           int idx = inliersMaxSet[j];
           handle.push_back(shells[idx]);
@@ -563,7 +563,7 @@ Affordances::searchHandles(const PointCloud::Ptr &cloud, std::vector<Cylindrical
           int num_occluded = 0;
           bool is_occluded = false;
                               
-          for (int j = 0; j < handle.size(); j++)
+          for (std::size_t j = 0; j < handle.size(); j++)
           {
             if (this->numInFront(cloud, handle[j].getNeighborhoodCentroidIndex(), 1.5 * this->target_radius + this->radius_error) > this->MAX_NUM_IN_FRONT)
             {
@@ -588,7 +588,7 @@ Affordances::searchHandles(const PointCloud::Ptr &cloud, std::vector<Cylindrical
         
         // prune list of cylindrical shells
         std::vector<CylindricalShell> remainder(outliersMaxSet.size());
-        for (int j=0; j < outliersMaxSet.size(); j++)
+        for (std::size_t j=0; j < outliersMaxSet.size(); j++)
           remainder[j] = shells[outliersMaxSet[j]];
         shells = remainder;
         printf(", remaining cylinders: %i\n", (int) shells.size());
@@ -610,7 +610,7 @@ std::vector<CylindricalShell>
 Affordances::searchAffordances(const PointCloud::Ptr &cloud, const std::vector<int> &indices)
 {
   Eigen::MatrixXd samples(3, indices.size());  
-  for (int i=0; i < indices.size(); i++)
+  for (std::size_t i=0; i < indices.size(); i++)
     samples.col(i) = cloud->points[indices[i]].getVector3fMap().cast<double>();
   
   return this->searchAffordancesTaubin(cloud, samples);
@@ -751,14 +751,14 @@ Affordances::findBestColinearSet(const std::vector<CylindricalShell> &list,
 	double orientRadius2 = this->alignment_orient_radius * this->alignment_orient_radius;
 	double distRadius2 = this->alignment_dist_radius * this->alignment_dist_radius;
 		
-	for (int i = 0; i < list.size(); i++)
+	for (std::size_t i = 0; i < list.size(); i++)
 	{
 		Eigen::Vector3d axis = list[i].getCurvatureAxis();
 		Eigen::Vector3d centroid = list[i].getCentroid();
 		double radius = list[i].getRadius();
 		std::vector<int> inliers, outliers;
     		
-		for (int j = 0; j < list.size(); j++)
+		for (std::size_t j = 0; j < list.size(); j++)
 		{
 			Eigen::Vector3d distToOrientVec = (Eigen::MatrixXd::Identity(3,3) - axis * axis.transpose()) * list[j].getCurvatureAxis();
 			double distToOrient = distToOrientVec.cwiseProduct(distToOrientVec).sum();

@@ -15,7 +15,7 @@ Visualizer::createCylinders(const std::vector<CylindricalShell> &list, const std
 	MarkerArray marker_array;
 	marker_array.markers.resize(list.size());
 			
-	for (int i = 0; i < list.size(); i++)
+	for (std::size_t i = 0; i < list.size(); i++)
 	{				
 		// create marker
 		visualization_msgs::Marker marker;
@@ -77,7 +77,7 @@ Visualizer::createHandleNumbers(const std::vector< std::vector<CylindricalShell>
   MarkerArray marker_array;
   marker_array.markers.resize(handles.size() * 2);
 
-  for (int i = 0; i < handles.size() * 2; i++)
+  for (std::size_t i = 0; i < handles.size() * 2; i++)
   {
     visualization_msgs::Marker marker;
     marker.header.frame_id = frame;
@@ -145,7 +145,7 @@ Visualizer::createHandles(const std::vector< std::vector<CylindricalShell> > &ha
   std::vector<CylindricalShell> handle_shells;
   int k = 0;
   
-	for (int i=0; i < handles.size(); i++)
+	for (std::size_t i=0; i < handles.size(); i++)
   {
     marker_arrays[i] = this->createCylinders(handles[i], frame);
     for (int j=0; j < handles[i].size(); j++)
