@@ -230,7 +230,7 @@ Sampling::searchAffordances(const PointCloud::Ptr &cloud, const PointCloudRGB::P
     // find affordances
     std::vector<CylindricalShell> shells = this->affordances.searchAffordancesTaubin(cloud, samples);
     all_shells.insert(all_shells.end(), shells.begin(), shells.end());
-    printf("ELAPSED TIME (ITERATION %i): %.3f\n", i, omp_get_wtime() - iteration_start_time);
+    printf("ELAPSED TIME (ITERATION %i): %.3f\n", (int) i, omp_get_wtime() - iteration_start_time);
   }
 
   printf("elapsed time (affordance search): %.3f sec, total # of affordances found: %i\n",

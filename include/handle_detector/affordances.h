@@ -43,6 +43,7 @@
 #include <pcl/point_types.h>
 #include <stdlib.h>
 #include <string>
+#include <tf/transform_datatypes.h>
 #include "curvature_estimation_taubin.h"
 #include "curvature_estimation_taubin.hpp"
 #include "cylindrical_shell.h"
@@ -88,20 +89,20 @@ class Affordances
      * \param cloud_in the point cloud to be filtered
      */
 		PointCloud::Ptr 
-    workspaceFilter(const PointCloud::Ptr &cloud_in);
+    workspaceFilter(const PointCloud::Ptr &cloud_in, tf::StampedTransform *transform = NULL);
     
 		/** \brief Filter out all points from a given cloud that are outside of a cube defined by the
      * workspace limits of the robot, and return the filtered cloud.
      * \param cloud_in the point cloud to be filtered
      */
     PointCloudRGB::Ptr 
-    workspaceFilter(const PointCloudRGB::Ptr &cloud_in);
+    workspaceFilter(const PointCloudRGB::Ptr &cloud_in, tf::StampedTransform *transform = NULL);
         
     /** \brief Search grasp affordances (cylindrical shells) in a given point cloud.
      * \param cloud the point cloud in which affordances are searched for
      */
     std::vector<CylindricalShell> 
-    searchAffordances(const PointCloud::Ptr &cloud);
+    searchAffordances(const PointCloud::Ptr &cloud, tf::StampedTransform *transform = NULL);
     
     /** \brief Search grasp affordances (cylindrical shells) using a set of indices in a given point cloud.
      * \param cloud the point cloud in which affordances are searched for
@@ -138,7 +139,7 @@ class Affordances
      * \param z the z coordinate of the point
      */ 
 		bool 
-    isPointInWorkspace(double x, double y, double z);
+    isPointInWorkspace(double x, double y, double z, tf::StampedTransform *transform = NULL);
     
     /** \brief Return the *.pcd file given by the corresponding parameter in the ROS launch file.
       */ 
@@ -192,14 +193,15 @@ class Affordances
      * \param cloud the point cloud in which affordances are searched for
      */
     std::vector<CylindricalShell> 
-    searchAffordancesNormalsOrPCA(const PointCloud::Ptr &cloud);
+    searchAffordancesNormalsOrPCA(const PointCloud::Ptr &cloud, 
+      tf::StampedTransform *transform = NULL);
 				
     /** \brief Search grasp affordances (cylindrical shells) in a given point cloud using Taubin 
      * Quadric Fitting.
      * \param cloud the point cloud in which affordances are searched for
      */
     std::vector<CylindricalShell> 
-    searchAffordancesTaubin(const PointCloud::Ptr &cloud);
+    searchAffordancesTaubin(const PointCloud::Ptr &cloud, tf::StampedTransform *transform = NULL);
     
     /** \brief Find the best (largest number of inliers) set of colinear cylindrical shells given a 
      * list of shells.
@@ -238,7 +240,7 @@ class Affordances
 		WorkspaceLimits workspace_limits;
 		int num_threads;
     std::string file;
-		
+    		
 		// standard parameters
 		static const int CURVATURE_ESTIMATOR; // curvature axis estimation method
 		static const int NUM_SAMPLES; // number of neighborhoods

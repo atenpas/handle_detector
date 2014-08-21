@@ -27,32 +27,6 @@ const double Affordances::ALIGNMENT_RADIUS_RADIUS = 0.003;
 const double Affordances::WORKSPACE_MIN = -1.0;
 const double Affordances::WORKSPACE_MAX = 1.0;
 
-//Affordances& Affordances::operator=(const Affordances& affordances)
-//{
-//  this->target_radius = affordances.target_radius;
-//  this->radius_error = affordances.radius_error;
-//  this->handle_gap = affordances.handle_gap;
-//  this->num_samples = affordances.num_samples;
-//  this->max_range = affordances.max_range;
-//  this->use_clearance_filter = affordances.use_clearance_filter;
-//  this->use_occlusion_filter = affordances.use_occlusion_filter;
-//  this->curvature_estimator = affordances.curvature_estimator;
-//  this->alignment_runs = affordances.alignment_runs;
-//  this->alignment_min_inliers = affordances.alignment_min_inliers;
-//  this->alignment_dist_radius = affordances.alignment_dist_radius;
-//  this->alignment_orient_radius = affordances.alignment_orient_radius;
-//  this->alignment_radius_radius = affordances.alignment_radius_radius;
-//  this->num_threads = affordances.num_threads;
-//  this->file = affordances.file;
-//  this->workspace_limits = new WorkspaceLimits;
-//  *this->workspace_limits = *affordances.workspace_limits;
-//  printf("assignment operator\n");
-//  printf("%.2f %.2f\n", this->workspace_limits->max_x, affordances.workspace_limits->max_x);
-//  printf("%.2f %.2f\n", this->workspace_limits->max_y, affordances.workspace_limits->max_y);
-//  std::cout<<this->workspace_limits->max_x<<" "<<affordances.workspace_limits->max_x<<"\n";
-//  return *this;
-//}
-
 void 
 Affordances::initParams(ros::NodeHandle node)
 {	
@@ -121,9 +95,18 @@ Affordances::maxRangeFilter(const PointCloud::Ptr &cloud_in)
 }
 
 bool 
-Affordances::isPointInWorkspace(double x, double y, double z)
-{
-	WorkspaceLimits limits = this->workspace_limits;
+Affordances::isPointInWorkspace(double x, double y, double z, tf::StampedTransform *transform)
+{  
+	if (transform != NULL)
+  {
+    tf::Vector3 v(x, y, z);
+    tf::Vector3 tf_v = (*transform) * v;
+    x = tf_v.getX();
+    y = tf_v.getY();
+    z = tf_v.getZ();
+  }
+  
+  WorkspaceLimits limits = this->workspace_limits;
 		
 	if (x >= limits.min_x && x <= limits.max_x && y >= limits.min_y && y <= limits.max_y
 		&& z >= limits.min_z && z <= limits.max_z)
@@ -135,13 +118,13 @@ Affordances::isPointInWorkspace(double x, double y, double z)
 }
 
 PointCloud::Ptr 
-Affordances::workspaceFilter(const PointCloud::Ptr &cloud_in)
+Affordances::workspaceFilter(const PointCloud::Ptr &cloud_in, tf::StampedTransform *transform)
 {
 	PointCloud::Ptr cloud_out(new PointCloud);
 	
 	for (std::size_t i=0; i < cloud_in->points.size(); i++)
 	{
-		if (this->isPointInWorkspace(cloud_in->points[i].x, cloud_in->points[i].y, cloud_in->points[i].z))
+		if (this->isPointInWorkspace(cloud_in->points[i].x, cloud_in->points[i].y, cloud_in->points[i].z, transform))
 			cloud_out->points.push_back(cloud_in->points[i]);
 	}
 	
@@ -149,13 +132,13 @@ Affordances::workspaceFilter(const PointCloud::Ptr &cloud_in)
 }
 
 PointCloudRGB::Ptr 
-Affordances::workspaceFilter(const PointCloudRGB::Ptr &cloud_in)
+Affordances::workspaceFilter(const PointCloudRGB::Ptr &cloud_in, tf::StampedTransform *transform)
 {
 	PointCloudRGB::Ptr cloud_out(new PointCloudRGB);
 	
 	for (std::size_t i=0; i < cloud_in->points.size(); i++)
 	{
-		if (this->isPointInWorkspace(cloud_in->points[i].x, cloud_in->points[i].y, cloud_in->points[i].z))
+		if (this->isPointInWorkspace(cloud_in->points[i].x, cloud_in->points[i].y, cloud_in->points[i].z, transform))
 			cloud_out->points.push_back(cloud_in->points[i]);
 	}
 	
@@ -253,23 +236,24 @@ Affordances::estimateNormals(const PointCloud::Ptr &cloud,
 	normal_estimator.compute(*cloud_normals);
 }
 
-std::vector<CylindricalShell> Affordances::searchAffordances(const PointCloud::Ptr &cloud)
+std::vector<CylindricalShell> 
+Affordances::searchAffordances(const PointCloud::Ptr &cloud, tf::StampedTransform *transform)
 {
   std::vector<CylindricalShell> shells;
   shells.resize(0);
 
   if (this->curvature_estimator == TAUBIN)
-    shells = this->searchAffordancesTaubin(cloud);
+    shells = this->searchAffordancesTaubin(cloud, transform);
   else if (this->curvature_estimator == NORMALS)
-    shells = this->searchAffordancesNormalsOrPCA(cloud);
+    shells = this->searchAffordancesNormalsOrPCA(cloud, transform);
   else if (this->curvature_estimator == PCA)
-    shells = this->searchAffordancesNormalsOrPCA(cloud);
+    shells = this->searchAffordancesNormalsOrPCA(cloud, transform);
 
   return shells;
 }
 
 std::vector<CylindricalShell> 
-Affordances::searchAffordancesNormalsOrPCA(const PointCloud::Ptr &cloud)
+Affordances::searchAffordancesNormalsOrPCA(const PointCloud::Ptr &cloud, tf::StampedTransform *transform)
 {
   pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(new pcl::PointCloud<pcl::Normal>);
   
@@ -407,7 +391,7 @@ Affordances::searchAffordancesNormalsOrPCA(const PointCloud::Ptr &cloud)
 }
 
 std::vector<CylindricalShell> 
-Affordances::searchAffordancesTaubin(const PointCloud::Ptr &cloud)
+Affordances::searchAffordancesTaubin(const PointCloud::Ptr &cloud, tf::StampedTransform *transform)
 {	
 	printf("Estimating curvature ...\n");
 	double beginTime = omp_get_wtime();
@@ -433,7 +417,8 @@ Affordances::searchAffordancesTaubin(const PointCloud::Ptr &cloud)
 		int r = std::rand() % cloud->points.size();
     k = 0;
 		while (!pcl::isFinite((*cloud)[r])
-				|| !this->isPointInWorkspace(cloud->points[r].x, cloud->points[r].y, cloud->points[r].z))
+				|| !this->isPointInWorkspace(cloud->points[r].x, cloud->points[r].y, cloud->points[r].z, 
+            transform))
     {
 			r = std::rand() % cloud->points.size();
       k++;

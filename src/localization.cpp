@@ -18,21 +18,23 @@
 #include <stdlib.h> 
 #include <stdio.h>
 #include <string.h>
+#include <tf/transform_datatypes.h>
+#include <tf/transform_listener.h>
 #include <vector>
 #include "handle_detector/visualizer.h"
 #define EIGEN_DONT_PARALLELIZE
 
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
-const std::string RANGE_SENSOR_FRAME = "/camera_rgb_optical_frame";
-const std::string RANGE_SENSOR_TOPIC = "/camera/depth_registered/points";
-//~ const std::string RANGE_SENSOR_TOPIC = "/head_camera/depth/points"; // simulated Kinect
+const std::string RANGE_SENSOR_FRAME = "/kinect_l_rgb_optical_frame";
+const std::string RANGE_SENSOR_TOPIC = "/kinect_l/depth_registered/points";
 
 // input and output ROS topic data
 PointCloud::Ptr g_cloud(new PointCloud);
 Affordances g_affordances;
 std::vector<CylindricalShell> g_cylindrical_shells;
 std::vector< std::vector<CylindricalShell> > g_handles;
+tf::StampedTransform g_transform;
 
 // synchronization
 double g_prev_time;
@@ -43,7 +45,7 @@ void chatterCallback(const sensor_msgs::PointCloud2ConstPtr& input)
 {
 	if (omp_get_wtime() - g_prev_time < g_update_interval)
 		return;
-		
+  	
 	// check whether input frame is equivalent to range sensor frame constant
 	std::string input_frame = input->header.frame_id;
 	if (input_frame.compare(RANGE_SENSOR_FRAME) != 0)
@@ -51,7 +53,7 @@ void chatterCallback(const sensor_msgs::PointCloud2ConstPtr& input)
 		printf("Input frame %s is not equivalent to output frame %s ! Exiting ...\n", input_frame.c_str(), RANGE_SENSOR_FRAME.c_str());
 		std::exit(EXIT_FAILURE);
 	}
-	printf("input frame: %s, output frame: %s\n", input_frame.c_str(), RANGE_SENSOR_FRAME.c_str());
+	printf("input frame: %s\noutput frame: %s\n", input_frame.c_str(), RANGE_SENSOR_FRAME.c_str());
 	
 	// convert ROS sensor message to PCL point cloud
 	PointCloud::Ptr cloud(new PointCloud);
@@ -76,7 +78,8 @@ void chatterCallback(const sensor_msgs::PointCloud2ConstPtr& input)
 	//~ pcl::io::savePCDFileASCII("/home/andreas/test_pcd.pcd", *stored_cloud);
 	
   // search grasp affordances
-  g_cylindrical_shells = g_affordances.searchAffordances(g_cloud);
+  double start_time = omp_get_wtime();  
+  g_cylindrical_shells = g_affordances.searchAffordances(g_cloud, &g_transform);
   if (g_cylindrical_shells.size() == 0)
   {
     printf("No handles found!\n");
@@ -86,6 +89,9 @@ void chatterCallback(const sensor_msgs::PointCloud2ConstPtr& input)
   
   // search handles
   g_handles = g_affordances.searchHandles(g_cloud, g_cylindrical_shells);
+  
+  // measure runtime
+  printf("Affordance and handle search done in %.3f sec.\n", omp_get_wtime() - start_time);
 	
 	// store current time
 	g_prev_time = omp_get_wtime();
@@ -93,14 +99,14 @@ void chatterCallback(const sensor_msgs::PointCloud2ConstPtr& input)
 			
 int main(int argc, char** argv)
 {       
-    // constants
+  // constants
 	const int PCD_FILE = 0;
 	const int SENSOR = 1;
   	
 	// initialize random seed
   srand (time(NULL));
     
-    // initialize ROS
+  // initialize ROS
 	ros::init(argc, argv, "localization"); 
 	ros::NodeHandle node("~");
 	
@@ -147,14 +153,18 @@ int main(int argc, char** argv)
 		g_has_read = true;
 		
 		// measure runtime
-		double end_time = omp_get_wtime();
-		double elapsed_time = end_time - start_time;
-		printf("Affordance and handle search done in %.3f sec.\n", elapsed_time);
+		printf("Affordance and handle search done in %.3f sec.\n", omp_get_wtime() - start_time);
 	}
 	// point cloud read from sensor
 	else if (point_cloud_source == SENSOR)
-	{		
-		printf("Reading point cloud data from sensor topic: %s\n", RANGE_SENSOR_TOPIC.c_str());
+	{	
+		// wait for and then lookup transform between camera frame and base frame
+    tf::TransformListener transform_listener;
+    transform_listener.waitForTransform(RANGE_SENSOR_FRAME, "base", ros::Time(0), ros::Duration(3));		
+    transform_listener.lookupTransform("base", RANGE_SENSOR_FRAME, ros::Time(0), g_transform);
+    
+    // create subscriber for camera topic
+    printf("Reading point cloud data from sensor topic: %s\n", RANGE_SENSOR_TOPIC.c_str());
 		range_sensor_frame = RANGE_SENSOR_FRAME;
 		sub = node.subscribe(RANGE_SENSOR_TOPIC, 10, chatterCallback);
 	}
@@ -190,7 +200,7 @@ int main(int argc, char** argv)
 		if (g_has_read)
 		{
 			// create visual point cloud
-			cloud_vis = g_affordances.workspaceFilter(g_cloud);
+			cloud_vis = g_affordances.workspaceFilter(g_cloud, &g_transform);
 			ROS_INFO("update cloud");
 				
 			// create cylinder messages for visualization and ROS topic

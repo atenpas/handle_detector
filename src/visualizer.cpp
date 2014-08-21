@@ -106,7 +106,7 @@ Visualizer::createHandleNumbers(const std::vector< std::vector<CylindricalShell>
       marker.color.b = 0.0;
 
       // displayed text
-      marker.text = boost::lexical_cast<std::string>(i/2);
+      marker.text = boost::lexical_cast<std::string>((i/2) + 1);
     }
     else
     {
