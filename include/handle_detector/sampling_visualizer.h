@@ -41,59 +41,66 @@ typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloudRGB;
 
 /** \brief SamplingVisualizer visualizes individual steps of importance sampling. This can be used to illustrate the
-  * different sampling methods.
-  * \author Andreas ten Pas
-  */
+ * different sampling methods.
+ * \author Andreas ten Pas
+ */
 class SamplingVisualizer
 {
-  public:
-    /**
-     * Create a visual cylinder from a point on its axis, its axis, its radius, and its extent.
-     * \param pt_on_axis a point on the cylinder's axis
-     * \param axis_direction the vector that represents the cylinder's axis
-     * \param radius the radius of the cylinder
-     * \param extent the extent of the cylinder
-     */
-    pcl::ModelCoefficients
-    createCylinder(Eigen::Vector3d pt_on_axis, Eigen::Vector3d axis_direction, double radius, double extent);
+public:
+  /**
+   * Create a visual cylinder from a point on its axis, its axis, its radius, and its extent.
+   * \param pt_on_axis a point on the cylinder's axis
+   * \param axis_direction the vector that represents the cylinder's axis
+   * \param radius the radius of the cylinder
+   * \param extent the extent of the cylinder
+   */
+  pcl::ModelCoefficients
+  createCylinder(Eigen::Vector3d pt_on_axis, Eigen::Vector3d axis_direction, double radius, double extent);
 
-    /**
-     * Add a set of cylindrical shells to a given pcl-viewer. The color for all shells is defined by the three
-     * optional parameters.
-     * \param shells the set of cylindrical shells to be added
-     * \param viewer_void the pcl-viewer
-     */
-    void
-    addCylinders(const std::vector<CylindricalShell> &shells, void* viewer_void, std::string handle_index="", double r=0.0, double g=1.0, double b=1.0);
+  /**
+   * Add a set of cylindrical shells to a given pcl-viewer. The color for all shells is defined by the three
+   * optional parameters.
+   * \param shells the set of cylindrical shells to be added
+   * \param viewer_void the pcl-viewer
+   */
+  void
+  addCylinders(const std::vector<CylindricalShell> &shells, void* viewer_void, std::string handle_index = "", double r =
+                   0.0,
+               double g = 1.0, double b = 1.0);
 
-    /**
-     * Create a pcl-viewer that shows a point cloud, a set of cylindrical shells, and a set of samples.
-     * \param cloud the cloud to be shown
-     * \param shells the set of cylindrical shells to be shown
-     * \param samples the set of samples to be shown
-     * \param target_radius the target radius
-     */
-    void
-    createViewer(PointCloud::ConstPtr cloud, std::vector<CylindricalShell> shells, Eigen::MatrixXd samples, double target_radius);
+  /**
+   * Create a pcl-viewer that shows a point cloud, a set of cylindrical shells, and a set of samples.
+   * \param cloud the cloud to be shown
+   * \param shells the set of cylindrical shells to be shown
+   * \param samples the set of samples to be shown
+   * \param target_radius the target radius
+   */
+  void
+  createViewer(PointCloud::ConstPtr cloud, std::vector<CylindricalShell> shells, Eigen::MatrixXd samples,
+               double target_radius);
 
-    /**
-     * Create a pcl-viewer that shows a point cloud, a set of cylindrical shells, and a set of samples.
-     * \param cloud the cloud to be shown
-     * \param shells the set of cylindrical shells to be shown
-     * \param samples the set of samples to be shown
-     * \param target_radius the target radius
-     */
-    void
-    createViewerRGB(PointCloudRGB::ConstPtr cloud, std::vector<CylindricalShell> shells, Eigen::MatrixXd samples, double target_radius);
+  /**
+   * Create a pcl-viewer that shows a point cloud, a set of cylindrical shells, and a set of samples.
+   * \param cloud the cloud to be shown
+   * \param shells the set of cylindrical shells to be shown
+   * \param samples the set of samples to be shown
+   * \param target_radius the target radius
+   */
+  void
+  createViewerRGB(PointCloudRGB::ConstPtr cloud, std::vector<CylindricalShell> shells, Eigen::MatrixXd samples,
+                  double target_radius);
 
-    /**
-      * Returns the pcl-viewer.
-      */
-    inline boost::shared_ptr<pcl::visualization::PCLVisualizer>
-    getViewer() { return this->viewer; };
+  /**
+   * Returns the pcl-viewer.
+   */
+  inline boost::shared_ptr<pcl::visualization::PCLVisualizer> getViewer()
+  {
+    return this->viewer;
+  }
+  ;
 
-  private:
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;
+private:
+  boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;
 };
 
 #endif

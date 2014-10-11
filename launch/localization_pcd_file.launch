@@ -1,11 +1,11 @@
 <launch>
 	<node name="localization" pkg="handle_detector" type="handle_detector_localization" output="screen">
 		<!-- affordance search parameters -->
-  	<param name="file" value="/home/andreas/baxter_ws/src/handle_detector/data/stagedcleaning8.pcd" />
+  	<param name="file" value="/home/andreas/data/kinfu/cloud2.pcd" />
 		<param name="target_radius" value="0.02" />
 		<param name="target_radius_error" value="0.01" />
 		<param name="affordance_gap" value="0.008" />
-		<param name="sample_size" value="10000" />		
+		<param name="sample_size" value="5000" />		
 		<param name="use_clearance_filter" value="true" />
 		<param name="use_occlusion_filter" value="false" />
   	<param name="curvature_estimator" value="0" />

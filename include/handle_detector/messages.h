@@ -44,33 +44,32 @@
 #include <tf/transform_datatypes.h>
 
 /** \brief Messages creates custom ROS messages to publish the results of the localization. The 
-  * messages that can be created are: CylinderArray, Cylinder, and HandleList.
-  * \author Andreas ten Pas
-  */
+ * messages that can be created are: CylinderArray, Cylinder, and HandleList.
+ * \author Andreas ten Pas
+ */
 class Messages
 {
-	public:
-    /** \brief Create a CylinderArray message from a list of cylindrical shells.
-      * \param list the list of cylindrical shells
-      * \param frame the frame in which the shells are located
-    */ 
-    handle_detector::CylinderArrayMsg 
-    createCylinderArray(const std::vector<CylindricalShell> &list, std::string frame);
-    
-    /** \brief Create a Cylinder message from a cylindrical shell.
-      * \param shell the cylindrical shell
-      * \param frame the frame in which the shell is located
-    */ 
-    handle_detector::CylinderMsg 
-    createCylinder(const CylindricalShell &shell, std::string frame);
-    
-    /** \brief Create a HandleList message from a list of cylindrical shells.
-      * \param handles the list of handles
-      * \param frame the frame in which the shells are located
-    */ 
-    handle_detector::HandleListMsg 
-    createHandleList(const std::vector< std::vector<CylindricalShell> > &handles, 
-                    std::string frame);
+public:
+  /** \brief Create a CylinderArray message from a list of cylindrical shells.
+   * \param list the list of cylindrical shells
+   * \param frame the frame in which the shells are located
+   */
+  handle_detector::CylinderArrayMsg
+  createCylinderArray(const std::vector<CylindricalShell> &list, std::string frame);
+
+  /** \brief Create a Cylinder message from a cylindrical shell.
+   * \param shell the cylindrical shell
+   * \param frame the frame in which the shell is located
+   */
+  handle_detector::CylinderMsg
+  createCylinder(const CylindricalShell &shell, std::string frame);
+
+  /** \brief Create a HandleList message from a list of cylindrical shells.
+   * \param handles the list of handles
+   * \param frame the frame in which the shells are located
+   */
+  handle_detector::HandleListMsg
+  createHandleList(const std::vector<std::vector<CylindricalShell> > &handles, std::string frame);
 };
 
 #endif

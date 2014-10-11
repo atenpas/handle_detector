@@ -43,58 +43,59 @@ typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloudRGB;
 
 /** \brief Sampling localizes grasp affordances using importance sampling.
-  * \author Andreas ten Pas
-  */
+ * \author Andreas ten Pas
+ */
 class Sampling
 {
-  public:
-    void
-    setAffordances(Affordances &affordances) { this->affordances = affordances; };
+public:
+  void setAffordances(Affordances &affordances)
+  {
+    this->affordances = affordances;
+  }
+  ;
 
-    /**
-     * Initializes the importance sampling parameters based on the parameters given
-     * by a ROS node.
-     * \param node the ROS node
-     */
-    void
-    initParams(const ros::NodeHandle& node);
+  /**
+   * Initializes the importance sampling parameters based on the parameters given
+   * by a ROS node.
+   * \param node the ROS node
+   */
+  void
+  initParams(const ros::NodeHandle& node);
 
-    /**
-     * Illustrates the different sampling methods.
-     * \param cloud the point cloud
-     * \param cloudrgb the colored point cloud
-     * \param target_radius the target radius
-     */
-    void
-    illustrate(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr &cloudrgb,
-        double target_radius);
+  /**
+   * Illustrates the different sampling methods.
+   * \param cloud the point cloud
+   * \param cloudrgb the colored point cloud
+   * \param target_radius the target radius
+   */
+  void
+  illustrate(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr &cloudrgb, double target_radius);
 
-    /**
-     * Search affordances using importance sampling.
-     * \param cloud the point cloud
-     * \param cloudrgb the colored point cloud
-     * \param target_radius the target radius
-     */
-    std::vector<CylindricalShell>
-    searchAffordances(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr &cloudrgb,
-        double target_radius);
+  /**
+   * Search affordances using importance sampling.
+   * \param cloud the point cloud
+   * \param cloudrgb the colored point cloud
+   * \param target_radius the target radius
+   */
+  std::vector<CylindricalShell>
+  searchAffordances(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr &cloudrgb, double target_radius);
 
-  private:
-    Affordances affordances;
-    int num_iterations;
-    int num_samples;
-    int num_init_samples;
-    double prob_rand_samples;
-    bool is_visualized;
-    int method;
+private:
+  Affordances affordances;
+  int num_iterations;
+  int num_samples;
+  int num_init_samples;
+  double prob_rand_samples;
+  bool is_visualized;
+  int method;
 
-    // standard parameters
-    static const int NUM_ITERATIONS;
-    static const int NUM_SAMPLES;
-    static const int NUM_INIT_SAMPLES;
-    static const double PROB_RAND_SAMPLES;
-    static const bool VISUALIZE_STEPS;
-    static const int METHOD;
+  // standard parameters
+  static const int NUM_ITERATIONS;
+  static const int NUM_SAMPLES;
+  static const int NUM_INIT_SAMPLES;
+  static const double PROB_RAND_SAMPLES;
+  static const bool VISUALIZE_STEPS;
+  static const int METHOD;
 };
 
 #endif /* SAMPLING_H_ */
