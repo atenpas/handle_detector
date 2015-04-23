@@ -1,7 +1,7 @@
 <launch>
 	<node name="localization" pkg="handle_detector" type="handle_detector_localization" output="screen">
 		<!-- affordance search parameters -->
-  	<param name="file" value="/home/andreas/data/kinfu/cloud2.pcd" />
+  	<param name="file" value="/home/andreas/data/handle_detector/table1.pcd" />
 		<param name="target_radius" value="0.02" />
 		<param name="target_radius_error" value="0.01" />
 		<param name="affordance_gap" value="0.008" />
