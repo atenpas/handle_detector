@@ -2,6 +2,14 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* updated CMakeList for indigo
+* speeds up shell search (thanks to Sachin Patil)
+* added workspace filter with transform; changed BCI numbering
+* changed to std::size_t where std::vectors are used in for loops
+* Contributors: Andreas, andreas, atp, baxter
+
 1.1.0 (2014-07-24)
 ------------------
 * updated readme
