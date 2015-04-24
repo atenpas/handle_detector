@@ -15,12 +15,10 @@ find_package(catkin REQUIRED COMPONENTS
 	tf_conversions
   visualization_msgs)
 
-## find Lapack
-find_package(LAPACK REQUIRED)
-
-## find Eigen package
+## find Lapack and Eigen packages
 find_package(Eigen REQUIRED)
-include_directories(${Eigen_INCLUDE_DIRS})
+find_package(LAPACK REQUIRED)
+find_package(PCL REQUIRED)
 
 ## compiler optimization flags
 set(CMAKE_CXX_FLAGS "-DNDEBUG -O3 -fopenmp -Wno-deprecated")
@@ -53,9 +51,10 @@ catkin_package(
     visualization_msgs
   DEPENDS
     Eigen
-    LAPACK)
+    LAPACK
+    PCL)
 
-include_directories(${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} include)
+include_directories(${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${PCL_INCLUDE_DIRS} include)
 
 ## create executables
 add_executable(${PROJECT_NAME}_localization src/localization.cpp)
