@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(handle_detector)
 
 ## find catkin and required packages
-find_package(catkin REQUIRED COMPONENTS 
+find_package(catkin REQUIRED 
 	cmake_modules
   eigen_conversions 
   geometry_msgs 
