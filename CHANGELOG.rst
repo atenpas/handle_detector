@@ -2,8 +2,8 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.1.1 (2015-05-14)
+------------------
 * updated CMakeList for indigo
 * speeds up shell search (thanks to Sachin Patil)
 * added workspace filter with transform; changed BCI numbering
