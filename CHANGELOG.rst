@@ -2,6 +2,11 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* update launch files with relative paths
+* Contributors: atp
+
 1.1.1 (2015-05-14)
 ------------------
 * updated CMakeList for indigo
