@@ -2,8 +2,8 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.3.0 (2015-06-10)
+------------------
 * remove pcl_ros dependency
 * Contributors: atenpas
 
