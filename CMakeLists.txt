@@ -8,7 +8,6 @@ find_package(catkin REQUIRED
   geometry_msgs 
 	message_generation   
   roscpp 
-	pcl_ros
   pcl_conversions
   std_msgs 
 	tf
@@ -43,7 +42,6 @@ catkin_package(
     geometry_msgs 
     message_runtime 
     roscpp 
-    pcl_ros
     pcl_conversions
     std_msgs 
     tf
@@ -87,7 +85,7 @@ target_link_libraries(${PROJECT_NAME}_importance_sampling ${PROJECT_NAME}_sampli
 ## link libraries to affordances library
 target_link_libraries(${PROJECT_NAME}_affordances ${catkin_LIBRARIES})
 target_link_libraries(${PROJECT_NAME}_affordances ${PROJECT_NAME}_cylindrical_shell)
-target_link_libraries(${PROJECT_NAME}_affordances lapack)
+target_link_libraries(${PROJECT_NAME}_affordances lapack ${PCL_LIBRARIES})
 
 ## link libraries to messages library
 target_link_libraries(${PROJECT_NAME}_messages ${catkin_LIBRARIES})
@@ -95,6 +93,8 @@ target_link_libraries(${PROJECT_NAME}_messages ${catkin_LIBRARIES})
 ## link libraries to sampling library
 target_link_libraries(${PROJECT_NAME}_sampling ${PROJECT_NAME}_affordances)
 target_link_libraries(${PROJECT_NAME}_sampling ${PROJECT_NAME}_sampling_visualizer)
+
+target_link_libraries(${PROJECT_NAME}_sampling_visualizer ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 
 ## install targets
 install(TARGETS ${PROJECT_NAME}_localization ${PROJECT_NAME}_importance_sampling 

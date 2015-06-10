@@ -35,7 +35,7 @@
 #include <boost/lexical_cast.hpp>
 #include "cylindrical_shell.h"
 #include <geometry_msgs/PoseStamped.h>
-#include <pcl_ros/point_cloud.h>
+#include <pcl/point_cloud.h>
 #include <tf/transform_datatypes.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <vector>

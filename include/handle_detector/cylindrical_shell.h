@@ -34,7 +34,7 @@
 
 #include "Eigen/Dense"
 #include <pcl/kdtree/kdtree_flann.h>
-#include <pcl_ros/point_cloud.h>
+#include <pcl/point_cloud.h>
 #include <pcl/search/organized.h>
 
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
