@@ -10,7 +10,7 @@ Changelog for package handle_detector
 1.2.0 (2015-05-16)
 ------------------
 * update launch files with relative paths
-* Contributors: atp
+* Contributors: atenpas
 
 1.1.1 (2015-05-14)
 ------------------
@@ -18,7 +18,7 @@ Changelog for package handle_detector
 * speeds up shell search (thanks to Sachin Patil)
 * added workspace filter with transform; changed BCI numbering
 * changed to std::size_t where std::vectors are used in for loops
-* Contributors: Andreas, andreas, atp, baxter
+* Contributors: atenpas
 
 1.1.0 (2014-07-24)
 ------------------
