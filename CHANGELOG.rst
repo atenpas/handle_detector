@@ -2,6 +2,13 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* removed pcl ros includes from importance sampling
+* update CHANGELOG
+* update CHANGELOG
+* Contributors: atenpas
+
 1.3.0 (2015-06-10)
 ------------------
 * remove pcl_ros dependency
