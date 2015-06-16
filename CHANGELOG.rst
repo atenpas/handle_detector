@@ -2,8 +2,8 @@
 Changelog for package handle_detector
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.3.1 (2015-06-16)
+------------------
 * removed pcl ros includes from importance sampling
 * update CHANGELOG
 * update CHANGELOG
