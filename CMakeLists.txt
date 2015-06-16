@@ -76,7 +76,7 @@ target_link_libraries(${PROJECT_NAME}_localization ${PROJECT_NAME}_visualizer)
 target_link_libraries(${PROJECT_NAME}_localization ${PROJECT_NAME}_messages)
 
 ## link libraries to importance_sampling executable
-target_link_libraries(${PROJECT_NAME}_importance_sampling ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}_importance_sampling ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 target_link_libraries(${PROJECT_NAME}_importance_sampling ${PROJECT_NAME}_affordances)
 target_link_libraries(${PROJECT_NAME}_importance_sampling ${PROJECT_NAME}_visualizer)
 target_link_libraries(${PROJECT_NAME}_importance_sampling ${PROJECT_NAME}_messages)
