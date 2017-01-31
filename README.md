@@ -30,9 +30,3 @@ This package takes a point cloud as input and produces a list of handels / envel
 ## INSTRUCTIONS
 
 Please look at http://wiki.ros.org/handle_detector for detailed instructions.
-
-
-## LINKS
-
-Instructions: http://wiki.ros.org/handle_detector
-Source: https://github.com/atenpas/handle_detector
