@@ -40,9 +40,9 @@ void SamplingVisualizer::createViewer(PointCloud::ConstPtr cloud, std::vector<Cy
 {
   boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("3D Viewer"));
   viewer->setBackgroundColor(0, 0, 0);
-  viewer->addPointCloud < pcl::PointXYZ > (cloud, "sample cloud");
-  viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud");
-  viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_OPACITY, 0.4, "sample cloud");
+  pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGBA> rgb(cloud);
+  viewer->addPointCloud < pcl::PointXYZRGBA > (cloud, rgb, "sample cloud");
+  viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "sample cloud");
 
   addCylinders(shells, (void*)&viewer, "", 0, 1.0, 1.0);
 
@@ -59,29 +59,3 @@ void SamplingVisualizer::createViewer(PointCloud::ConstPtr cloud, std::vector<Cy
 
   this->viewer = viewer;
 }
-
-void SamplingVisualizer::createViewerRGB(PointCloudRGB::ConstPtr cloud, std::vector<CylindricalShell> shells,
-                                         Eigen::MatrixXd samples, double target_radius)
-{
-  boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("3D Viewer"));
-  viewer->setBackgroundColor(0, 0, 0);
-  pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> rgb(cloud);
-  viewer->addPointCloud < pcl::PointXYZRGB > (cloud, rgb, "sample cloud");
-  viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "sample cloud");
-
-  addCylinders(shells, (void*)&viewer, "", 0, 1.0, 1.0);
-
-  for (std::size_t i = 0; i < samples.cols(); i++)
-  {
-    pcl::PointXYZ center;
-    center.x = samples(0, i);
-    center.y = samples(1, i);
-    center.z = samples(2, i);
-    std::string id = "sphere" + boost::lexical_cast < std::string > (i);
-    viewer->addSphere(center, target_radius * 0.4, id);
-    viewer->setShapeRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, 1.0, 0.0, 0.0, id);
-  }
-
-  this->viewer = viewer;
-}
-

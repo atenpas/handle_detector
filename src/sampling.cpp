@@ -11,7 +11,7 @@ const double Sampling::PROB_RAND_SAMPLES = 0.2;
 const bool Sampling::VISUALIZE_STEPS = false;
 const int Sampling::METHOD = SUM;
 
-void Sampling::illustrate(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr &cloudrgb, double target_radius)
+void Sampling::illustrate(const PointCloud::Ptr &cloud, double target_radius)
 {
   // parameters
   int num_samples = 200;
@@ -75,7 +75,7 @@ void Sampling::illustrate(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr
   }
 
   SamplingVisualizer sum_visualizer;
-  sum_visualizer.createViewerRGB(cloudrgb, all_shells, samples_sum, target_radius);
+  sum_visualizer.createViewer(cloud, all_shells, samples_sum, target_radius);
   sum_visualizer.getViewer()->setSize(800, 600);
   sum_visualizer.getViewer()->setCameraPosition(0.255106, -0.903705, -0.538521, 0.255053, -0.902864, -0.537242,
                                                 -0.0206334, -0.835517, 0.549076);
@@ -87,7 +87,7 @@ void Sampling::illustrate(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr
   }
 
   SamplingVisualizer max_visualizer;
-  max_visualizer.createViewerRGB(cloudrgb, all_shells, samples_max, target_radius);
+  max_visualizer.createViewer(cloud, all_shells, samples_max, target_radius);
   max_visualizer.getViewer()->setSize(800, 600);
   max_visualizer.getViewer()->setCameraPosition(0.255106, -0.903705, -0.538521, 0.255053, -0.902864, -0.537242,
                                                 -0.0206334, -0.835517, 0.549076);
@@ -99,8 +99,7 @@ void Sampling::illustrate(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr
   }
 }
 
-std::vector<CylindricalShell> Sampling::searchAffordances(const PointCloud::Ptr &cloud,
-                                                          const PointCloudRGB::Ptr &cloudrgb, double target_radius)
+std::vector<CylindricalShell> Sampling::searchAffordances(const PointCloud::Ptr &cloud, double target_radius)
 {
   double start_time = omp_get_wtime();
   double sigma = 2.0 * target_radius;
@@ -115,15 +114,15 @@ std::vector<CylindricalShell> Sampling::searchAffordances(const PointCloud::Ptr 
     Eigen::MatrixXd init_samples(3, num_init_samples);
     for (std::size_t i = 0; i < num_init_samples; i++)
     {
-      init_samples(0, i) = cloudrgb->points[indices[i]].x;
-      init_samples(1, i) = cloudrgb->points[indices[i]].y;
-      init_samples(2, i) = cloudrgb->points[indices[i]].z;
+      init_samples(0, i) = cloud->points[indices[i]].x;
+      init_samples(1, i) = cloud->points[indices[i]].y;
+      init_samples(2, i) = cloud->points[indices[i]].z;
     }
     std::vector<CylindricalShell> no_shells;
     no_shells.resize(0);
 
     SamplingVisualizer visualizer;
-    visualizer.createViewerRGB(cloudrgb, no_shells, init_samples, target_radius);
+    visualizer.createViewer(cloud, no_shells, init_samples, target_radius);
     visualizer.getViewer()->setSize(800, 600);
     visualizer.getViewer()->setCameraPosition(0.255106, -0.903705, -0.538521, 0.255053, -0.902864, -0.537242,
                                               -0.0206334, -0.835517, 0.549076);
@@ -212,7 +211,7 @@ std::vector<CylindricalShell> Sampling::searchAffordances(const PointCloud::Ptr 
     {
       SamplingVisualizer visualizer;
 //      visualizer.createViewer(cloud, all_shells, samples, target_radius);
-      visualizer.createViewerRGB(cloudrgb, all_shells, samples.block(0, 0, 3, num_gauss_samples), target_radius);
+      visualizer.createViewer(cloud, all_shells, samples.block(0, 0, 3, num_gauss_samples), target_radius);
       visualizer.getViewer()->setSize(800, 600);
       visualizer.getViewer()->setCameraPosition(0.255106, -0.903705, -0.538521, 0.255053, -0.902864, -0.537242,
                                                 -0.0206334, -0.835517, 0.549076);

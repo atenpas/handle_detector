@@ -1,6 +1,10 @@
 <launch>
 	<node name="localization" pkg="handle_detector" type="handle_detector_localization" output="screen">
-		<!-- affordance search parameters -->
+		
+    <!-- the ROS topic from which to get the point cloud -->
+    <param name="cloud_topic" value="/camera/depth_registered/points" />
+    
+    <!-- affordance search parameters -->
     <param name="file" value="" />
 		<param name="target_radius" value="0.012" />
 		<param name="target_radius_error" value="0.012" />
@@ -9,7 +13,6 @@
 		<param name="use_clearance_filter" value="true" />
 		<param name="use_occlusion_filter" value="true" />
     <param name="curvature_estimator" value="0" />
-		<param name="point_cloud_source" value="1" />
 		<param name="update_interval" value="600.0" />
 		
 		<!-- alignment parameters -->
@@ -21,12 +24,12 @@
 				
 		<!-- workspace limits -->
 		<param name="max_range" value="0.9" />
-    <param name="workspace_min_x" value="0.5" />
+    <param name="workspace_min_x" value="-1.5" />
 		<param name="workspace_max_x" value="1.0" />
-		<param name="workspace_min_y" value="-0.5" />
-		<param name="workspace_max_y" value="0.5" />
-		<param name="workspace_min_z" value="-0.3" />
-		<param name="workspace_max_z" value="0.7" />
+		<param name="workspace_min_y" value="-1.5" />
+		<param name="workspace_max_y" value="1.5" />
+		<param name="workspace_min_z" value="-1.3" />
+		<param name="workspace_max_z" value="1.7" />
 		
 		<!-- number of threads to use -->
 		<param name="num_threads" value="2" />

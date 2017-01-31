@@ -37,7 +37,7 @@
 #include <pcl/point_cloud.h>
 #include <pcl/search/organized.h>
 
-typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
+typedef pcl::PointCloud<pcl::PointXYZRGBA> PointCloud;
 
 /** \brief CylindricalShell represents a cylindrical shell that consists of two colinear cylinders. 
  * A shell consists of an inner and an outer cylinder. The portion of the object to be grasped

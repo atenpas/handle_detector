@@ -39,8 +39,7 @@
 #include <pcl/point_types.h>
 #include <pcl/visualization/pcl_visualizer.h>
 
-typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
-typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloudRGB;
+typedef pcl::PointCloud<pcl::PointXYZRGBA> PointCloud;
 
 /** \brief Sampling localizes grasp affordances using importance sampling.
  * \author Andreas ten Pas
@@ -69,7 +68,7 @@ public:
    * \param target_radius the target radius
    */
   void
-  illustrate(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr &cloudrgb, double target_radius);
+  illustrate(const PointCloud::Ptr &cloud, double target_radius);
 
   /**
    * Search affordances using importance sampling.
@@ -78,7 +77,7 @@ public:
    * \param target_radius the target radius
    */
   std::vector<CylindricalShell>
-  searchAffordances(const PointCloud::Ptr &cloud, const PointCloudRGB::Ptr &cloudrgb, double target_radius);
+  searchAffordances(const PointCloud::Ptr &cloud, double target_radius);
 
 private:
   Affordances affordances;

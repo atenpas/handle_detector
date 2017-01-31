@@ -28,10 +28,10 @@ template<typename PointInT, typename PointOutT> void pcl::CurvatureEstimationTau
   // set-up an Organized Neighbor search
   if (input_->isOrganized())
   {
-    pcl::search::OrganizedNeighbor<pcl::PointXYZ>::Ptr organized_neighbor(
-        new pcl::search::OrganizedNeighbor<pcl::PointXYZ>());
+    pcl::search::OrganizedNeighbor<PointXYZRGBA>::Ptr organized_neighbor(
+        new pcl::search::OrganizedNeighbor<PointXYZRGBA>());
     organized_neighbor->setInputCloud(input_);
-    pcl::PointXYZ search_point;
+    pcl::PointXYZRGBA search_point;
 
     // parallelization using OpenMP
 #ifdef _OPENMP
@@ -73,9 +73,9 @@ template<typename PointInT, typename PointOutT> void pcl::CurvatureEstimationTau
   }
   else
   {
-    pcl::KdTreeFLANN<pcl::PointXYZ>::Ptr tree(new pcl::KdTreeFLANN<pcl::PointXYZ>());
+    pcl::KdTreeFLANN<pcl::PointXYZRGBA>::Ptr tree(new pcl::KdTreeFLANN<pcl::PointXYZRGBA>());
     tree->setInputCloud(input_);
-    pcl::PointXYZ search_point;
+    pcl::PointXYZRGBA search_point;
 
     // parallelization using OpenMP
 #ifdef _OPENMP

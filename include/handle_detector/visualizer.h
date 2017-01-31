@@ -35,13 +35,12 @@
 #include <boost/lexical_cast.hpp>
 #include "cylindrical_shell.h"
 #include <geometry_msgs/PoseStamped.h>
-#include <pcl/point_cloud.h>
 #include <tf/transform_datatypes.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <vector>
 
-typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 typedef visualization_msgs::MarkerArray MarkerArray;
+
 
 /** \brief Visualizer creates ROS messages to visualize the results of the localization in RViz. 
  * The possible objects that can be visualized are: neighborhoods, cylindrical shells, and handles.

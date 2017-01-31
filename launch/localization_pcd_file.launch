@@ -1,32 +1,39 @@
 <launch>
 	<node name="localization" pkg="handle_detector" type="handle_detector_localization" output="screen">
-		<!-- affordance search parameters -->
+		
+    <!-- affordance search parameters -->
+<!--
   	<param name="file" value="$(find handle_detector)/data/stagedcleaning8.pcd" />
+-->
+  	<param name="file" value="/home/andreas/data/Baxter/table5.pcd" />
+<!--
+    <param name="file" value="/home/andreas/data/agile_grasp/training_march2015/train30.pcd" />
+-->
 		<param name="target_radius" value="0.02" />
-		<param name="target_radius_error" value="0.01" />
+		<param name="target_radius_error" value="0.02" />
 		<param name="affordance_gap" value="0.008" />
 		<param name="sample_size" value="5000" />		
 		<param name="use_clearance_filter" value="true" />
 		<param name="use_occlusion_filter" value="false" />
   	<param name="curvature_estimator" value="0" />
 		<param name="point_cloud_source" value="0" />
-		<param name="update_interval" value="3.0" />
+		<param name="update_interval" value="30" />
 		
 		<!-- alignment parameters -->
-		<param name="alignment_runs" value="10" />
-		<param name="alignment_min_inliers" value="15" />
+		<param name="alignment_runs" value="15" />
+		<param name="alignment_min_inliers" value="5" />
 		<param name="alignment_dist_radius" value="0.02" />
 		<param name="alignment_orient_radius" value="0.4" />
 		<param name="alignment_radius_radius" value="0.003" />
 				
 		<!-- workspace limits -->
 		<param name="max_range" value="1.2" />
-		<param name="workspace_min_x" value="0.0" />
-		<param name="workspace_max_x" value="1.5" />
-		<param name="workspace_min_y" value="-0.15" />
-		<param name="workspace_max_y" value="1.5" />
-		<param name="workspace_min_z" value="0.0" />
-		<param name="workspace_max_z" value="1.5" />
+		<param name="workspace_min_x" value="-1.0" />
+		<param name="workspace_max_x" value="1.0" />
+		<param name="workspace_min_y" value="-1.0" />
+		<param name="workspace_max_y" value="1.0" />
+		<param name="workspace_min_z" value="-1.0" />
+		<param name="workspace_max_z" value="1.0" />
 		
 		<!-- number of threads to use -->
 		<param name="num_threads" value="8" />

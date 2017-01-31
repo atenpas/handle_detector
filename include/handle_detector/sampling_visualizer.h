@@ -37,8 +37,7 @@
 #include <pcl/visualization/pcl_visualizer.h>
 #include <vector>
 
-typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
-typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloudRGB;
+typedef pcl::PointCloud<pcl::PointXYZRGBA> PointCloud;
 
 /** \brief SamplingVisualizer visualizes individual steps of importance sampling. This can be used to illustrate the
  * different sampling methods.
@@ -78,17 +77,6 @@ public:
   void
   createViewer(PointCloud::ConstPtr cloud, std::vector<CylindricalShell> shells, Eigen::MatrixXd samples,
                double target_radius);
-
-  /**
-   * Create a pcl-viewer that shows a point cloud, a set of cylindrical shells, and a set of samples.
-   * \param cloud the cloud to be shown
-   * \param shells the set of cylindrical shells to be shown
-   * \param samples the set of samples to be shown
-   * \param target_radius the target radius
-   */
-  void
-  createViewerRGB(PointCloudRGB::ConstPtr cloud, std::vector<CylindricalShell> shells, Eigen::MatrixXd samples,
-                  double target_radius);
 
   /**
    * Returns the pcl-viewer.

@@ -1,6 +1,6 @@
 #include <handle_detector/affordances.h>
 
-typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
+typedef pcl::PointCloud<pcl::PointXYZRGBA> PointCloud;
 
 const int TAUBIN = 0;
 const int PCA = 1;
@@ -127,18 +127,6 @@ PointCloud::Ptr Affordances::workspaceFilter(const PointCloud::Ptr &cloud_in, tf
   return cloud_out;
 }
 
-PointCloudRGB::Ptr Affordances::workspaceFilter(const PointCloudRGB::Ptr &cloud_in, tf::StampedTransform *transform)
-{
-  PointCloudRGB::Ptr cloud_out(new PointCloudRGB);
-
-  for (std::size_t i = 0; i < cloud_in->points.size(); i++)
-  {
-    if (this->isPointInWorkspace(cloud_in->points[i].x, cloud_in->points[i].y, cloud_in->points[i].z, transform))
-      cloud_out->points.push_back(cloud_in->points[i]);
-  }
-
-  return cloud_out;
-}
 
 int Affordances::numInFront(const PointCloud::Ptr &cloud, int center_index, double radius)
 {
@@ -215,9 +203,9 @@ void Affordances::estimateCurvatureAxisNormals(const pcl::PointCloud<pcl::Normal
 
 void Affordances::estimateNormals(const PointCloud::Ptr &cloud, const pcl::PointCloud<pcl::Normal>::Ptr &cloud_normals)
 {
-  pcl::NormalEstimationOMP<pcl::PointXYZ, pcl::Normal> normal_estimator;
+  pcl::NormalEstimationOMP<pcl::PointXYZRGBA, pcl::Normal> normal_estimator;
   normal_estimator.setInputCloud(cloud);
-  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>());
+  pcl::search::KdTree<pcl::PointXYZRGBA>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZRGBA>());
   normal_estimator.setSearchMethod(tree);
   normal_estimator.setRadiusSearch(0.03);
   normal_estimator.compute(*cloud_normals);
@@ -256,7 +244,7 @@ std::vector<CylindricalShell> Affordances::searchAffordancesNormalsOrPCA(const P
   // search cloud for a set of point neighborhoods
   double begin_time_axis = omp_get_wtime();
   printf("Estimating cylinder surface normal and curvature axis ...\n");
-  pcl::PointXYZ searchPoint;
+  pcl::PointXYZRGBA searchPoint;
   std::vector<int> nn_indices;
   std::vector < std::vector<int> > neighborhoods(this->num_samples);
   std::vector<int> neighborhood_centroids(this->num_samples);
@@ -267,8 +255,8 @@ std::vector<CylindricalShell> Affordances::searchAffordancesNormalsOrPCA(const P
   if (cloud->isOrganized())
   {
     std::vector<float> nn_dists;
-    pcl::search::OrganizedNeighbor<pcl::PointXYZ>::Ptr organized_neighbor(
-        new pcl::search::OrganizedNeighbor<pcl::PointXYZ>());
+    pcl::search::OrganizedNeighbor<pcl::PointXYZRGBA>::Ptr organized_neighbor(
+        new pcl::search::OrganizedNeighbor<pcl::PointXYZRGBA>());
     organized_neighbor->setInputCloud(cloud);
     std::srand(std::time(0)); // use current time as seed for random generator
 
@@ -296,7 +284,7 @@ std::vector<CylindricalShell> Affordances::searchAffordancesNormalsOrPCA(const P
   else
   {
     std::vector<float> nn_dists;
-    pcl::KdTreeFLANN<pcl::PointXYZ> tree;
+    pcl::KdTreeFLANN<pcl::PointXYZRGBA> tree;
     tree.setInputCloud(cloud);
     std::srand(std::time(0)); // use current time as seed for random generator
 
@@ -344,10 +332,10 @@ std::vector<CylindricalShell> Affordances::searchAffordancesNormalsOrPCA(const P
   double outer_sample_radius = 1.5 * (maxHandAperture + this->handle_gap); // outer sample radius
 
   // for organized point clouds
-  pcl::search::OrganizedNeighbor<pcl::PointXYZ>::Ptr organized_neighbor(
-      new pcl::search::OrganizedNeighbor<pcl::PointXYZ>());
+  pcl::search::OrganizedNeighbor<pcl::PointXYZRGBA>::Ptr organized_neighbor(
+      new pcl::search::OrganizedNeighbor<pcl::PointXYZRGBA>());
   // for unorganized point clouds
-  pcl::KdTreeFLANN<pcl::PointXYZ> tree;
+  pcl::KdTreeFLANN<pcl::PointXYZRGBA> tree;
   if (cloud->isOrganized())
     organized_neighbor->setInputCloud(cloud);
   else
@@ -371,7 +359,7 @@ std::vector<CylindricalShell> Affordances::searchAffordancesNormalsOrPCA(const P
       // filter on low clearance
       if (this->use_clearance_filter)
       {
-        pcl::PointXYZ searchPoint;
+        pcl::PointXYZRGBA searchPoint;
         std::vector<int> nn_indices;
         std::vector<float> nn_dists;
         Eigen::Vector3d centroid = shell.getCentroid();
@@ -406,7 +394,7 @@ std::vector<CylindricalShell> Affordances::searchAffordancesTaubin(const PointCl
   double beginTime = omp_get_wtime();
 
   // set-up estimator
-  pcl::CurvatureEstimationTaubin<pcl::PointXYZ, pcl::PointCurvatureTaubin> estimator;
+  pcl::CurvatureEstimationTaubin<pcl::PointXYZRGBA, pcl::PointCurvatureTaubin> estimator;
 
   // set input source
   estimator.setInputCloud(cloud);
@@ -476,10 +464,10 @@ std::vector<CylindricalShell> Affordances::searchAffordancesTaubin(const PointCl
   double outer_sample_radius = 1.5 * (maxHandAperture + this->handle_gap); // outer sample radius
 
   // for organized point clouds
-  pcl::search::OrganizedNeighbor<pcl::PointXYZ>::Ptr organized_neighbor(
-      new pcl::search::OrganizedNeighbor<pcl::PointXYZ>());
+  pcl::search::OrganizedNeighbor<pcl::PointXYZRGBA>::Ptr organized_neighbor(
+      new pcl::search::OrganizedNeighbor<pcl::PointXYZRGBA>());
   // for unorganized point clouds
-  pcl::KdTreeFLANN<pcl::PointXYZ> tree;
+  pcl::KdTreeFLANN<pcl::PointXYZRGBA> tree;
   if (cloud->isOrganized())
     organized_neighbor->setInputCloud(cloud);
   else
@@ -513,7 +501,7 @@ std::vector<CylindricalShell> Affordances::searchAffordancesTaubin(const PointCl
         // filter on low clearance
         if (this->use_clearance_filter)
         {
-          pcl::PointXYZ searchPoint;
+          pcl::PointXYZRGBA searchPoint;
           std::vector<int> nn_indices;
           std::vector<float> nn_dists;
           Eigen::Vector3d centroid = shell.getCentroid();
@@ -642,7 +630,7 @@ std::vector<CylindricalShell> Affordances::searchAffordancesTaubin(const PointCl
 
   // set-up estimator
   pcl::PointCloud<pcl::PointCurvatureTaubin>::Ptr cloud_curvature(new pcl::PointCloud<pcl::PointCurvatureTaubin>);
-  pcl::CurvatureEstimationTaubin<pcl::PointXYZ, pcl::PointCurvatureTaubin> estimator;
+  pcl::CurvatureEstimationTaubin<pcl::PointXYZRGBA, pcl::PointCurvatureTaubin> estimator;
   estimator.setInputCloud(cloud);
   estimator.setRadiusSearch(this->NEIGHBOR_RADIUS);
   //~ estimator.setRadiusSearch(1.5*target_radius + radius_error);
@@ -679,10 +667,10 @@ std::vector<CylindricalShell> Affordances::searchAffordancesTaubin(const PointCl
   double outer_sample_radius = 1.5 * (maxHandAperture + this->handle_gap); // outer sample radius
 
   // for organized point clouds
-  pcl::search::OrganizedNeighbor<pcl::PointXYZ>::Ptr organized_neighbor(
-      new pcl::search::OrganizedNeighbor<pcl::PointXYZ>());
+  pcl::search::OrganizedNeighbor<pcl::PointXYZRGBA>::Ptr organized_neighbor(
+      new pcl::search::OrganizedNeighbor<pcl::PointXYZRGBA>());
   // for unorganized point clouds
-  pcl::KdTreeFLANN<pcl::PointXYZ> tree;
+  pcl::KdTreeFLANN<pcl::PointXYZRGBA> tree;
   if (cloud->isOrganized())
     organized_neighbor->setInputCloud(cloud);
   else
@@ -728,7 +716,7 @@ std::vector<CylindricalShell> Affordances::searchAffordancesTaubin(const PointCl
         if (this->use_clearance_filter)
         {
           double tclear0 = omp_get_wtime();
-          pcl::PointXYZ searchPoint;
+          pcl::PointXYZRGBA searchPoint;
           std::vector<int> nn_indices;
           std::vector<float> nn_dists;
           Eigen::Vector3d centroid = shell.getCentroid();

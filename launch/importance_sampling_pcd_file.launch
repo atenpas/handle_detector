@@ -1,6 +1,7 @@
 <launch>
 	<node name="importance_sampling" pkg="handle_detector" type="handle_detector_importance_sampling" output="screen">
-		<!-- affordance search parameters -->
+		
+    <!-- affordance search parameters -->
     <param name="file" value="$(find handle_detector)/data/stagedcleaning8.pcd" />
 		<param name="target_radius" value="0.013" />
 		<param name="target_radius_error" value="0.013" />
