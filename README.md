@@ -9,6 +9,17 @@
 **Author's Website:** http://www.ccs.neu.edu/home/atp/
 
 
+## OVERVIEW
+
+This package takes a point cloud as input and produces a list of handels / enveloping grasp affordances as output.
+
+### Input: point cloud
+<img src="readme/example_table0.png" alt="" style="width: 400px;"/>
+
+### Output: handles / enveloping grasp affordances
+<img src="readme/example_table1.png" alt="" style="width: 400px;"/>
+
+
 ## REQUIREMENTS
 
 1. ROS Hydro (http://wiki.ros.org/hydro)

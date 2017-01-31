@@ -2,13 +2,8 @@
 	<node name="localization" pkg="handle_detector" type="handle_detector_localization" output="screen">
 		
     <!-- affordance search parameters -->
-<!--
-  	<param name="file" value="$(find handle_detector)/data/stagedcleaning8.pcd" />
--->
-  	<param name="file" value="/home/andreas/data/Baxter/table5.pcd" />
-<!--
-    <param name="file" value="/home/andreas/data/agile_grasp/training_march2015/train30.pcd" />
--->
+  	<param name="file" value="$(find handle_detector)/data/table5.pcd" />
+
 		<param name="target_radius" value="0.02" />
 		<param name="target_radius_error" value="0.02" />
 		<param name="affordance_gap" value="0.008" />
