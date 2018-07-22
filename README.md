@@ -22,9 +22,9 @@ This package takes a point cloud as input and produces a list of handels / envel
 
 ## REQUIREMENTS
 
-1. ROS Hydro (http://wiki.ros.org/hydro)
+1. ROS Kinetic (http://wiki.ros.org/kinetic)
 2. Lapack (install in Ubuntu using: sudo apt-get install liblapack-dev)
-3. Openni_launch (http://wiki.ros.org/openni_launch; install in Ubuntu using: sudo apt-get install ros-hydro-openni-launch)
+3. Openni_launch (http://wiki.ros.org/openni_launch; install in Ubuntu using: sudo apt install ros-kinetic-openni-launch)
 
 
 ## INSTRUCTIONS
