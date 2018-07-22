@@ -29,4 +29,8 @@ This package takes a point cloud as input and produces a list of handels / envel
 
 ## INSTRUCTIONS
 
-Please look at http://wiki.ros.org/handle_detector for detailed instructions.
+1. Run handle detection on a *.pcd file: `roslaunch handle_detector localization_pcd_file.launch`
+2. Run handle detection with a depth sensor (e.g., Kinect): `roslaunch handle_detector localization_sensor.launch`
+3. Run handle detection with *importance sampling* on a *.pcd file: `roslaunch handle_detector importance_sampling_pcd_file.launch` 
+
+For detailed instructions, have a look at: http://wiki.ros.org/handle_detector.
